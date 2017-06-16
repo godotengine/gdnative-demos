@@ -1,6 +1,7 @@
 #include <godot.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct user_data_struct {
 	char data[256];
