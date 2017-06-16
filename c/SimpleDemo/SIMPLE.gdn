@@ -1,0 +1,22 @@
+[gd_resource type="GDNativeScript" load_steps=2 format=2]
+
+[sub_resource type="GDNativeLibrary" id=1]
+
+platform/unix = ""
+platform/x11 = "res://src/libsimple.so"
+platform/server = ""
+platform/android = ""
+platform/blackberry = ""
+platform/haiku = ""
+platform/mac = "res://src/libsimple.dylib"
+platform/ios = ""
+platform/osx = "res://src/libsimple.dylib"
+platform/html5 = ""
+platform/windows = ""
+platform/uwp = ""
+
+[resource]
+
+library = SubResource( 1 )
+script_name = "SIMPLE"
+
