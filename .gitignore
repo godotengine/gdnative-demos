@@ -3,3 +3,4 @@
 *.so
 *.dylib
 .import
+*.import
