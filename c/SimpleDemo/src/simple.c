@@ -11,7 +11,7 @@ void *simple_constructor(godot_object *instance, void *method_data);
 void simple_destructor(godot_object *instance, void *method_data, user_data_struct *user_data);
 godot_variant simple_get_data(godot_object *instance, void *method_data, user_data_struct *user_data, int num_args, godot_variant **args);
 
-void godot_native_init(godot_native_init_options *options) {
+void GDN_EXPORT godot_native_init(godot_native_init_options *options) {
 
 	godot_instance_create_func create = {};
 	create.create_func = &simple_constructor;
