@@ -31,8 +31,6 @@ void window_close_callback(GLFWwindow* window)
 		godot_string name;
 		godot_string_new_data(&name, "emit_signal", 11);
 
-		godot_string_destroy(&name);
-
 		{
 			godot_string signal_name;
 			godot_string_new_data(&signal_name, "closed", 6);
