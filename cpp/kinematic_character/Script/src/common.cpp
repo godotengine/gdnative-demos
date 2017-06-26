@@ -15,21 +15,16 @@
  **/
 
 #include <Godot.hpp>
-#include <common.h>
 
-#include <player.h>
 #include <colworld.h>
+#include <player.h>
 
-NS_GODOT_BEGIN
+using namespace godot;
 
 GODOT_NATIVE_INIT(godot_native_init_options *options) {
 	register_class<GDPlayer>();
 	register_class<ColWorld>();
 }
 
-GODOT_NATIVE_TERMINATE (godot_native_init_options *options) {
-
+GODOT_NATIVE_TERMINATE(godot_native_init_options *options) {
 }
-
-NS_GODOT_END
-

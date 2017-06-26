@@ -17,36 +17,30 @@
 #include <colworld.h>
 #include <Label.hpp>
 
-NS_GODOT_BEGIN
+using namespace godot;
 
-ColWorld::ColWorld () {
-
+ColWorld::ColWorld() {
 }
 
-ColWorld::~ColWorld () {
-
+ColWorld::~ColWorld() {
 }
 
-void ColWorld::_init () {
-
+void ColWorld::_init() {
 }
 
 void ColWorld::_ready() {
-	owner->get_node ("princess")->connect ("body_entered", owner, "_on_princess_body_enter");
+	owner->get_node("princess")->connect("body_entered", owner, "_on_princess_body_enter");
 }
 
-void ColWorld::_on_princess_body_enter (KinematicBody2D *body) {
-	if (body->get_name () == "Character") {
-		((Label*) owner->get_node ("youwin"))->show ();
+void ColWorld::_on_princess_body_enter(KinematicBody2D *body) {
+	if (body->get_name() == "Character") {
+		((Label *)owner->get_node("youwin"))->show();
 	}
 }
 
-void ColWorld::_register_methods () {
-	register_method((char*)"_init", &ColWorld::_init);
-	register_method((char*)"_ready", &ColWorld::_ready);
+void ColWorld::_register_methods() {
+	register_method((char *)"_init", &ColWorld::_init);
+	register_method((char *)"_ready", &ColWorld::_ready);
 
-	register_method((char*)"_on_princess_body_enter", &ColWorld::_on_princess_body_enter);
+	register_method((char *)"_on_princess_body_enter", &ColWorld::_on_princess_body_enter);
 }
-
-NS_GODOT_END
-

@@ -17,12 +17,11 @@
 #ifndef COLWORLD_H
 #define COLWORLD_H
 
-#include <common.h>
 #include <Godot.hpp>
-#include <Node2D.hpp>
 #include <KinematicBody2D.hpp>
+#include <Node2D.hpp>
 
-NS_GODOT_BEGIN
+namespace godot {
 
 class ColWorld : public GodotScript<Node2D> {
 	GODOT_CLASS(ColWorld)
@@ -35,9 +34,8 @@ public:
 	void _ready();
 	void _on_princess_body_enter(KinematicBody2D *body);
 
-	static void _register_methods ();
+	static void _register_methods();
 };
-
-NS_GODOT_END
+}
 
 #endif // COLWORLD_H

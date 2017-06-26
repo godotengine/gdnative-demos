@@ -16,11 +16,11 @@
 
 #include <player.h>
 
-#include <Input.hpp>
 #include <AnimatedSprite.hpp>
+#include <Input.hpp>
 #include <cmath>
 
-NS_GODOT_BEGIN
+using namespace godot;
 
 const static float _gravity = 500.0;
 
@@ -36,50 +36,38 @@ const static float _slide_stop_velocity = 1.0;
 const static float _slide_stop_min_travel = 1.0;
 
 template <typename T>
-int sign (const T &val) { return (val > 0) - (val < 0); }
+int sign(const T &val) {
+	return (val > 0) - (val < 0);
+}
 
 GDPlayer::GDPlayer() {
-
 }
 
-GDPlayer::~GDPlayer () {
-
+GDPlayer::~GDPlayer() {
 }
 
-void GDPlayer::_init () {
+void GDPlayer::_init() {
 	Vector2 _force = Vector2();
 
 	_jumping = false;
-	_on_air_time = 100.0;
+	_on_air_time = 0.0;
 	_current_anim = "Default";
 }
 
-void GDPlayer::_ready () {
-	ray0 = ((RayCast2D*) owner->get_node ("Ray0"));
-	ray1 = ((RayCast2D*) owner->get_node ("Ray1"));
+void GDPlayer::_ready() {
+	ray0 = ((RayCast2D *)owner->get_node("Ray0"));
+	ray1 = ((RayCast2D *)owner->get_node("Ray1"));
 
-	ray0->add_exception (owner);
-	ray1->add_exception (owner);
-
-	_owner = owner;
-	_is_ready = true;
-
-	std::printf("Owner class: %s\n", owner->get_class ().c_string ());
-	Godot::print ("on Ready");
+	ray0->add_exception(owner);
+	ray1->add_exception(owner);
 }
 
-void GDPlayer::_input (InputEvent *event) {
-
-}
-
-void GDPlayer::_fixed_process (const float delta) {
-	if (!_is_ready) { return; }
-
+void GDPlayer::_fixed_process(const float delta) {
 	Vector2 _force = Vector2(0, _gravity);
 
-	bool left = Input::is_action_pressed ("ui_left");
-	bool right = Input::is_action_pressed ("ui_right");
-	bool jump = Input::is_action_pressed ("ui_up");
+	bool left = Input::is_action_pressed("ui_left");
+	bool right = Input::is_action_pressed("ui_right");
+	bool jump = Input::is_action_pressed("ui_up");
 
 	bool stop = true;
 
@@ -101,7 +89,9 @@ void GDPlayer::_fixed_process (const float delta) {
 
 		vlen -= _stop_force * delta;
 
-		if (vlen < 0) { vlen = 0; }
+		if (vlen < 0) {
+			vlen = 0;
+		}
 
 		_velocity.x = (vlen * vsign);
 	}
@@ -109,12 +99,11 @@ void GDPlayer::_fixed_process (const float delta) {
 	// Integrate forces to velocity
 	_velocity += _force * delta;
 	// Integrate velocity into motion and move
-	_velocity = owner->move_and_slide (_velocity, Vector2(0, -1));
+	_velocity = owner->move_and_slide(_velocity, Vector2(0, -1));
 
-	Vector2 _floor_velocity = Vector2();
-	bool floor_colliding = (ray0->is_colliding () || ray1->is_colliding ());
+	bool floor_colliding = (ray0->is_colliding() || ray1->is_colliding());
 
-	if (_owner->is_on_floor ()) {
+	if (owner->is_on_floor()) {
 		_on_air_time = 0;
 	}
 
@@ -126,43 +115,49 @@ void GDPlayer::_fixed_process (const float delta) {
 	_on_air_time += delta;
 	_prev_jump_pressed = jump;
 
+	/**
+	 * @brief Animating
+	 *
+	 * The following show's how to get the child nodes and access there functions..
+	 */
+
 	bool animating = false;
 
 	if (left) {
-		((AnimatedSprite*) owner->get_node ("AnimatedSprite"))->set_flip_h (true);
-		if (floor_colliding) { _current_anim = "Run"; }
+		((AnimatedSprite *)owner->get_node("AnimatedSprite"))->set_flip_h(true);
+		if (floor_colliding) {
+			_current_anim = "Run";
+		}
 		animating = true;
 	}
 	if (right) {
-		((AnimatedSprite*) owner->get_node ("AnimatedSprite"))->set_flip_h (false);
-		if (floor_colliding) { _current_anim = "Run"; }
+		((AnimatedSprite *)owner->get_node("AnimatedSprite"))->set_flip_h(false);
+		if (floor_colliding) {
+			_current_anim = "Run";
+		}
 		animating = true;
 	}
 
 	if (!floor_colliding) {
-		if (_velocity.y > 0) { _current_anim = "JumpDown"; }
-		if (_velocity.y < 0) { _current_anim = "JumpUp"; }
-	} else if (!animating) { _current_anim = "Default"; }
+		if (_velocity.y > 0) {
+			_current_anim = "JumpDown";
+		}
+		if (_velocity.y < 0) {
+			_current_anim = "JumpUp";
+		}
+	} else if (!animating) {
+		_current_anim = "Default";
+	}
 
-
-	((AnimatedSprite*) owner->get_node ("AnimatedSprite"))->play (_current_anim);
+	((AnimatedSprite *)owner->get_node("AnimatedSprite"))->play(_current_anim);
 }
 
-void GDPlayer::_process (const float delta) {
+void GDPlayer::_register_methods() {
 
-}
+	register_method((char *)"_init", &GDPlayer::_init);
+	register_method((char *)"_ready", &GDPlayer::_ready);
 
-void GDPlayer::_register_methods () {
-
-	register_method((char*)"_init", &GDPlayer::_init);
-	register_method((char*)"_ready", &GDPlayer::_ready);
-
-	register_method((char*)"_input", &GDPlayer::_input);
-	//register_method((char*)"_process", &GDPlayer::_process);
-	register_method((char*)"_fixed_process", &GDPlayer::_fixed_process);
+	register_method((char *)"_fixed_process", &GDPlayer::_fixed_process);
 
 	register_signal<GDPlayer>("move");
 }
-
-NS_GODOT_END
-

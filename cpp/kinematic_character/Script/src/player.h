@@ -18,14 +18,13 @@
 #define PLAYER_H
 
 #include <Godot.hpp>
-#include <common.h>
 
 #include <InputEvent.hpp>
 #include <RayCast2D.hpp>
 
 #include <KinematicBody2D.hpp>
 
-NS_GODOT_BEGIN
+using namespace godot;
 
 class GDPlayer : public GodotScript<KinematicBody2D> {
 	GODOT_CLASS(GDPlayer)
@@ -37,16 +36,12 @@ public:
 	void _init();
 	void _ready();
 
-	void _input(InputEvent *event);
+	void _fixed_process(const float delta);
 
-	void _process (const float delta);
-	void _fixed_process (const float delta);
-
-	static void _register_methods ();
+	static void _register_methods();
 
 private:
 	bool _jumping;
-	bool _is_ready;
 	bool _prev_jump_pressed;
 
 	float _on_air_time;
@@ -56,10 +51,6 @@ private:
 
 	RayCast2D *ray0;
 	RayCast2D *ray1;
-
-	KinematicBody2D *_owner;
 };
-
-NS_GODOT_END
 
 #endif // PLAYER_H_
