@@ -1,0 +1,6 @@
+[submodule "cpp_bindings"]
+	path = cpp_bindings
+	url = http://github.com/GodotNativeTools/cpp_bindings/
+[submodule "godot_headers"]
+	path = godot_headers
+	url = http://github.com/GodotNativeTools/godot_headers
