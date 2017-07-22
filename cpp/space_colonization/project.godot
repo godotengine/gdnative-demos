@@ -1,0 +1,10 @@
+config_version=3
+[application]
+
+run/main_scene="res://Main.tscn"
+name="space_colonization"
+icon="res://icon.png"
+
+[rendering]
+
+viewport/default_environment="res://default_env.tres"

@@ -1,0 +1,23 @@
+[gd_resource type="GDNativeScript" load_steps=2 format=2]
+
+[sub_resource type="GDNativeLibrary" id=1]
+
+platform/unix = ""
+platform/x11 = "res://bin/space_colonization.so"
+platform/server = ""
+platform/android = ""
+platform/blackberry = ""
+platform/haiku = ""
+platform/mac = "res://bin/libspace_colonization.dylib"
+platform/ios = ""
+platform/osx = "res://bin/libspace_colonization.dylib"
+platform/html5 = ""
+platform/windows = "res://bin/space_colonization.dll"
+platform/uwp = ""
+
+[resource]
+
+resource_name = "MeshTree"
+library = SubResource( 1 )
+script_name = "MeshTree"
+
