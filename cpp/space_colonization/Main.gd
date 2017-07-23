@@ -7,9 +7,9 @@ extends Spatial
 onready var treemesh = preload("res://mesh_tree.gdn")
 
 func _ready():
-	# Called every time the node is added to the scene.
-	# Initialization here
-#	var resource = treemesh.instance()
+	$Tree.mesh = treemesh.new()
+
+	set_process(true)
 	
-#	$Tree.mesh = treemesh
-	pass
+func _process(delta):
+	$Tree.rotate_y(delta)

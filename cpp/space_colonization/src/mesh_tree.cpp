@@ -14,8 +14,6 @@ using namespace godot;
 
 MeshTree::MeshTree() {
 	printf("Construct MeshTree\n");
-
-	build_tree();
 };
 
 MeshTree::~MeshTree(){
@@ -24,13 +22,13 @@ MeshTree::~MeshTree(){
 
 void MeshTree::_init() {
 	printf("MeshTree::_init\n");
+
+  /* just call for now, this will eventually be handled differently */
+  build_tree();
 };
 
 void MeshTree::_ready() {
-	printf("MeshTree::+ready\n");
-
-	/* just call for now, this will eventually be handled differently */
-	build_tree();
+	printf("MeshTree::_ready\n");
 };
 
 void MeshTree::build_tree() {
