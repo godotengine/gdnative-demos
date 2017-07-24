@@ -1,6 +1,49 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+
+flags_transparent = false
+flags_unshaded = true
+flags_vertex_lighting = false
+flags_on_top = false
+flags_use_point_size = false
+flags_fixed_size = false
+vertex_color_use_as_albedo = false
+vertex_color_is_srgb = false
+params_diffuse_mode = 0
+params_specular_mode = 0
+params_blend_mode = 0
+params_cull_mode = 2
+params_depth_draw_mode = 0
+params_line_width = 1.0
+params_point_size = 1.0
+params_billboard_mode = 0
+params_grow = false
+albedo_color = Color( 0.7, 0.7, 0.7, 1 )
+metallic = 0.1
+metallic_specular = 0.5
+roughness = 0.0
+emission_enabled = false
+normal_enabled = false
+rim_enabled = false
+clearcoat_enabled = false
+anisotropy_enabled = false
+ao_enabled = false
+depth_enabled = false
+subsurf_scatter_enabled = false
+refraction_enabled = false
+detail_enabled = false
+uv1_scale = Vector3( 1, 1, 1 )
+uv1_offset = Vector3( 0, 0, 0 )
+uv1_triplanar = false
+uv1_triplanar_sharpness = 1.0
+uv2_scale = Vector3( 1, 1, 1 )
+uv2_offset = Vector3( 0, 0, 0 )
+uv2_triplanar = false
+uv2_triplanar_sharpness = 1.0
+_sections_unfolded = [ "Albedo", "Flags", "Parameters", "Vertex Color" ]
 
 [node name="Main" type="Spatial"]
 
@@ -8,7 +51,7 @@ script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
 
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.53564 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.42353, 9.80011 )
 projection = 0
 fov = 65.0
 near = 0.1
@@ -46,7 +89,7 @@ directional_shadow_normal_bias = 0.2
 [node name="Tree" type="MeshInstance" parent="."]
 
 layers = 1
-material_override = null
+material_override = SubResource( 1 )
 cast_shadow = 1
 extra_cull_margin = 0.0
 visible_in_all_rooms = false
@@ -57,5 +100,6 @@ lod_max_distance = 0.0
 lod_max_hysteresis = 0.0
 mesh = null
 skeleton = NodePath("..")
+_sections_unfolded = [ "Geometry" ]
 
 

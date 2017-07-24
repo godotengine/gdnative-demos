@@ -1,7 +1,11 @@
 config_version=3
+config_version=null
+
 [application]
 
+config/name="Space colonization"
 run/main_scene="res://Main.tscn"
+config/icon="res://icon.png"
 name="space_colonization"
 icon="res://icon.png"
 
