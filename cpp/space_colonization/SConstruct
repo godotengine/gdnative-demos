@@ -32,7 +32,7 @@ def add_sources(sources, dir):
 
 env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + 'include/', godot_bindings_path + 'include/core/' ])
 
-env.Append(LIBS=['godot_cpp_core', 'godot_cpp_bindings'])
+env.Append(LIBS=['libgodot_cpp_bindings.a'])
 env.Append(LIBPATH=[ godot_bindings_path + 'bin/' ])
 
 if platform == "windows":

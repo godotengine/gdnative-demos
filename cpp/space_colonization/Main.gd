@@ -4,10 +4,11 @@ extends Spatial
 # var a = 2
 # var b = "textvar"
 
-onready var treemesh = preload("res://mesh_tree.gdn")
+onready var treemesh = preload("res://mesh_tree.gdns")
 
 func _ready():
 	$Tree.mesh = treemesh.new()
+	
 
 	set_process(true)
 	

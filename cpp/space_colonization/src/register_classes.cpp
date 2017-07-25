@@ -13,9 +13,12 @@
 
 using namespace godot;
 
-GODOT_NATIVE_INIT(godot_native_init_options *options) {
-	register_class<MeshTree>();
+GDNATIVE_INIT(godot_gdnative_init_options *options) {
 }
 
-GODOT_NATIVE_TERMINATE(godot_native_init_options *options) {
+GDNATIVE_TERMINATE(godot_gdnative_terminate_options *options) {
+}
+
+NATIVESCRIPT_INIT() {
+	register_class<MeshTree>();
 }
