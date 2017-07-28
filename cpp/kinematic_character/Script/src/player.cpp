@@ -22,10 +22,10 @@
 
 using namespace godot;
 
-const static float _gravity = 500.0;
+const static float _gravity = 400.0;
 
 const static float _floor_angle_tolerance = 40.0;
-const static float _walk_force = 600.0;
+const static float _walk_force = 500.0;
 const static float _walk_min_speed = 10.0;
 const static float _walk_max_speed = 200.0;
 const static float _stop_force = 1300.0;
@@ -103,7 +103,7 @@ void GDPlayer::_fixed_process(const float delta) {
 
 	bool floor_colliding = (ray0->is_colliding() || ray1->is_colliding());
 
-	if (owner->is_on_floor()) {
+	if (owner->is_on_floor() || floor_colliding) {
 		_on_air_time = 0;
 	}
 
