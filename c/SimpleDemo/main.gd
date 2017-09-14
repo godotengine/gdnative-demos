@@ -1,7 +1,7 @@
 extends Control
 
 # load the SIMPLE library
-onready var data = preload("res://SIMPLE.gdn").new()
+onready var data = preload("res://SIMPLE.gdns").new()
 
 func _on_Button_pressed():
 	$Label.text = "Data = " + data.get_data()
