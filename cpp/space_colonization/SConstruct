@@ -1,19 +1,22 @@
 #!python
 import os
 
-env = Environment()
-
-platform = ARGUMENTS.get("p", "linux")
+platform = ARGUMENTS.get("platform", ARGUMENTS.get("p", "linux"))
+target = ARGUMENTS.get("target", "debug")
 godot_headers_path = ARGUMENTS.get("headers", "../../../godot_headers/")
 godot_bindings_path = ARGUMENTS.get("cpp_bindings", "../../../cpp_bindings/")
-godot_src_path = ARGUMENTS.get("godotpath", "../../../../godot3-git/")
 
-godot_name = "godot." + ("x11" if platform == "linux" else platform) + ".tools.64"
+# This makes sure to keep the session environment variables on windows, 
+# that way you can run scons in a vs 2017 prompt and it will find all the required tools
+env = Environment()
+if platform == "windows":
+    env = Environment(ENV = os.environ)
 
 if ARGUMENTS.get("use_llvm", "no") == "yes":
     env["CXX"] = "clang++"
 
-# put stuff that is the same for all first, saves duplication 
+# put stuff that is the same for all first, saves duplication
+cpp_bindings_libname = 'libgodot_cpp_bindings.a'
 if platform == "osx":
     env.Append(CCFLAGS = ['-g','-O3', '-std=c++14', '-arch', 'x86_64'])
     env.Append(LINKFLAGS = ['-arch', 'x86_64', '-framework', 'Cocoa', '-Wl,-undefined,dynamic_lookup'])
@@ -21,9 +24,12 @@ elif platform == "linux":
     env.Append(CCFLAGS = ['-g','-O3', '-std=c++14', '-Wno-writable-strings'])
     env.Append(LINKFLAGS = ['-Wl,-R,\'$$ORIGIN\''])
 elif platform == "windows":
-    # need to add detection of msvc vs mingw, this is for msvc...
-    env.Append(CCFLAGS = ['/MD', '/WX', '/O2', '/EHsc', '/nologo'])
+    if target == "debug":
+        env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '/MDd'])
+    else:
+        env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '/MD'])
     env.Append(LINKFLAGS = ['/WX'])
+    cpp_bindings_libname = 'godot_cpp_bindings'
 
 def add_sources(sources, dir):
     for f in os.listdir(dir):
@@ -32,16 +38,11 @@ def add_sources(sources, dir):
 
 env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + 'include/', godot_bindings_path + 'include/core/' ])
 
-env.Append(LIBS=['libgodot_cpp_bindings.a'])
+env.Append(LIBS=[cpp_bindings_libname])
 env.Append(LIBPATH=[ godot_bindings_path + 'bin/' ])
-
-if platform == "windows":
-    env.Append(LIBS=[ godot_name ]) 
-    env.Append(LIBPATH=[ godot_src_path + 'bin/' ])
 
 sources = []
 add_sources(sources, "src")
 
 library = env.SharedLibrary(target='bin/space_colonization', source=sources)
 Default(library)
-

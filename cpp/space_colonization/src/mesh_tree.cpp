@@ -47,11 +47,8 @@ MeshTree::~MeshTree(){
 };
 
 void MeshTree::_init() {
+	/* nothing to do here atm */
 	printf("MeshTree::_init\n");
-
-	/* just call these here for now, this will eventually be handled differently */
-	generate_attraction_points(1000, 4.0, 0.2, 2.0, 2.0);
-	build_tree();
 };
 
 void MeshTree::_ready() {
@@ -68,9 +65,9 @@ void MeshTree::_ready() {
  **/
 float MeshTree::randf(float pMin, float pMax) {
 	float randomNumber;
-	
-	randomNumber = rand() % 100000; // random number between 0 and 100000
-	randomNumber /= 100000; // scale to 0.0 - 1.0
+
+	randomNumber = rand();
+	randomNumber /= RAND_MAX; // scale to 0.0 - 1.0
 	randomNumber *= (pMax - pMin); // scale to our delta
 	
 	return randomNumber + pMin; // and return a number between min and max
@@ -128,13 +125,14 @@ void MeshTree::generate_attraction_points(int p_num_of_points, float p_outer_rad
 		
 		// random normalized vector for half a hemisphere
 		a_point.x = randf();
-		a_point.y = randf(0.0f, 1.0f);
+		a_point.y = randf();
 		a_point.z = randf();
 		float l = sqrt((a_point.x * a_point.x) + (a_point.y * a_point.y) + (a_point.z * a_point.z));
 		a_point.x /= l; a_point.y /= l; a_point.z /= l;
 		
 		// Scale it up to a random radius and stretch if needed
-		float s = ((p_outer_radius - p_inner_radius) * randf(0.0f, 1.0f)) + p_inner_radius;
+		float s = randf(0.0f, 1.0f);
+		s = ((p_outer_radius - p_inner_radius) * s) + p_inner_radius;
 		a_point.x *= s; a_point.y *= s; a_point.z *= s;
 		a_point.y *= p_aspect;
 		a_point.y += p_offset_y;
@@ -424,7 +422,7 @@ void MeshTree::optimiseNodes() {
 };
 
 
-void MeshTree::build_tree() {
+void MeshTree::build_tree(float p_max_distance, float p_branch_size, float p_cut_off_distance) {
 	if (tree_is_build) {
 		return;
 	};
@@ -440,12 +438,11 @@ void MeshTree::build_tree() {
 	arr.resize(ARRAY_MAX);
 
 	int count = 0;
-	while (do_iteration(2.5, 0.1, 0.2) && (count < 1000)) {
+	while (do_iteration(p_max_distance, p_branch_size, p_cut_off_distance) && (count < 1000)) {
 		// keep going....
 		count++;
 	};
 	optimiseNodes();
-
 
 	PoolVector3Array points;
 	PoolVector3Array normals;
@@ -500,4 +497,5 @@ void MeshTree::_register_methods() {
 
 	register_method((char *)"clear_attraction_points", &MeshTree::clear_attraction_points);
 	register_method((char *)"generate_attraction_points", &MeshTree::generate_attraction_points);
+	register_method((char *)"build_tree", &MeshTree::build_tree);
 };

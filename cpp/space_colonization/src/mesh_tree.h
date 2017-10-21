@@ -117,7 +117,7 @@ public:
 	**/
  	void optimiseNodes();
 
-	void build_tree();
+	void build_tree(float p_max_distance, float p_branch_size, float p_cut_off_distance);
 
 	static void _register_methods();
 };

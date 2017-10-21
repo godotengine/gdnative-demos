@@ -1,3 +1,4 @@
+logs/*
 *.exe
 *.dll
 *.dylib
@@ -5,3 +6,6 @@
 *.import
 *.o
 *.obj
+*.lib
+*.exp
+.sconsign.dblite

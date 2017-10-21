@@ -1,0 +1,17 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+
+[entry]
+
+X11.64="res://bin/libspace_colonization.so"
+Windows.64="res://bin/space_colonization.dll"
+OSX.64="res://bin/libspace_colonization.dylib"
+
+[dependencies]
+
+X11.64=[]
+Windows=[]
+OSX.64=[]

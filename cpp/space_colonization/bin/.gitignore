@@ -1,7 +1,0 @@
-*.exe
-*.dll
-*.dylib
-.import
-*.import
-*.o
-*.obj
