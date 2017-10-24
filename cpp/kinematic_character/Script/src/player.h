@@ -35,8 +35,9 @@ public:
 
 	void _init();
 	void _ready();
+	void moving();
 
-	void _fixed_process(const float delta);
+	void _physics_process(const float delta);
 
 	static void _register_methods();
 

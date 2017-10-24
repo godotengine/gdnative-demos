@@ -20,6 +20,9 @@
 #include <Input.hpp>
 #include <cmath>
 
+#include <colworld.h>
+#include <ClassDB.hpp>
+
 using namespace godot;
 
 const static float _gravity = 400.0;
@@ -60,9 +63,15 @@ void GDPlayer::_ready() {
 
 	ray0->add_exception(owner);
 	ray1->add_exception(owner);
+
+	owner->connect("move", owner, "_move");
 }
 
-void GDPlayer::_fixed_process(const float delta) {
+void GDPlayer::moving() {
+	Godot::print("Player Jumping");
+}
+
+void GDPlayer::_physics_process(const float delta) {
 	Vector2 _force = Vector2(0, _gravity);
 
 	bool left = Input::is_action_pressed("ui_left");
@@ -110,6 +119,7 @@ void GDPlayer::_fixed_process(const float delta) {
 	if (_on_air_time < _max_airborn_time && jump && !_prev_jump_pressed && !_jumping) {
 		_velocity.y = -_jump_speed;
 		_jumping = false;
+		owner->emit_signal("move");
 	}
 
 	_on_air_time += delta;
@@ -153,11 +163,11 @@ void GDPlayer::_fixed_process(const float delta) {
 }
 
 void GDPlayer::_register_methods() {
-
 	register_method((char *)"_init", &GDPlayer::_init);
 	register_method((char *)"_ready", &GDPlayer::_ready);
+	register_method((char *)"_move", &GDPlayer::moving);
 
-	register_method((char *)"_fixed_process", &GDPlayer::_fixed_process);
+	register_method((char *)"_physics_process", &GDPlayer::_physics_process);
 
 	register_signal<GDPlayer>("move");
 }
