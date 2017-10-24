@@ -31,4 +31,3 @@ NATIVESCRIPT_INIT() {
 	register_class<GDPlayer>();
 	register_class<ColWorld>();
 }
-
