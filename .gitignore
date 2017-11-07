@@ -4,3 +4,9 @@
 *.dylib
 .import
 *.import
+*.dblite
+*.dll
+*.exp
+*.lib
+*.obj
+logs
