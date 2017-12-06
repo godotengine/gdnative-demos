@@ -72,6 +72,7 @@ godot_variant simple_get_data(godot_object *p_instance, void *p_method_data, voi
 
 	api->godot_string_new_data(&data, user_data->data, strlen(user_data->data));
 	api->godot_variant_new_string(&ret, &data);
+	api->godot_string_destroy(&data);
 
 	return ret;
 }
