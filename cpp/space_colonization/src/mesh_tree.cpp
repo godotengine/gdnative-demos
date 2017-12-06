@@ -421,6 +421,50 @@ void MeshTree::optimiseNodes() {
 	};
 };
 
+void MeshTree::add_rings(mesh_data *p_data, const int p_parent_node, const int p_parent_first_vertex, const Vector3& p_parent_center, const Vector3& p_parent_bitangent) {
+	for (int i = 0; i < node_count; i++) {
+		TreeNode t_node = nodes[i];
+		if (t_node.parent == p_parent_node) {
+			int first_vertex = p_data->points.size();
+
+			// determine some handy things
+			Vector3 center = vertices[t_node.a]; // this should be our parents b
+			Vector3 normal = Vector3(0.0, 1.0, 0.0);
+			if (p_parent_node != -1) {
+				// calculate our normal
+				normal = center - p_parent_center;
+				normal.normalize();
+			}
+			Vector3 tangent = normal.cross(p_parent_bitangent).normalized();
+			Vector3 bitangent = normal.cross(tangent).normalized(); // reverse?
+
+			// add our vertices
+			for (int angle = 0; angle <= 360; angle+=40) {
+				float r = t_node.child_count + 1;
+				Vector3 v = center + (tangent * (r / 20.0)); // need to multiply our tangent with a distance so our radius gets small the higher we go, we can use child_count for this
+				Vector3 bt = normal.cross(tangent).normalized(); // reverse?
+
+				p_data->points.push_back(v);
+				p_data->normals.push_back(tangent); // our tangent is our normal
+				// p_data->tangents.push_back(bt); // our bitangent is our tangent :)
+				// p_data->uv // need to add our uv
+
+				tangent.rotate(normal, 40.0 * M_PI / 180.0);
+			}
+
+			if (p_parent_node != -1) {
+				// add some faces
+			};
+
+			// note, child_count includes the count of our childrens children, but its still 0 at the end...
+			if (t_node.child_count == 0) {
+				// add cap and leaves to b
+			} else {
+				add_rings(p_data, i, first_vertex, center, bitangent);
+			};
+		};
+	};
+};
 
 void MeshTree::build_tree(float p_max_distance, float p_branch_size, float p_cut_off_distance) {
 	if (tree_is_build) {
@@ -434,9 +478,6 @@ void MeshTree::build_tree(float p_max_distance, float p_branch_size, float p_cut
 	};
 
 	/* in with the new */
-	Array arr;
-	arr.resize(ARRAY_MAX);
-
 	int count = 0;
 	while (do_iteration(p_max_distance, p_branch_size, p_cut_off_distance) && (count < 1000)) {
 		// keep going....
@@ -444,13 +485,16 @@ void MeshTree::build_tree(float p_max_distance, float p_branch_size, float p_cut
 	};
 	optimiseNodes();
 
-	PoolVector3Array points;
-	PoolVector3Array normals;
-	//  PoolRealArray tangents;
-	//  PoolVector2Array uvs;
-	PoolIntArray indices;
+	/*
+		TODO need to rewrite the code below so we don't do expensive calls back into godot building our array
+		Instead we can bulk copy our arrays into the pool arrays at the end.
+		For now I'm being lazy just to get this to work.
+	*/
 
-	/* testing */
+	mesh_data data;
+
+	/* Create our tree  */
+	add_rings(&data); /*
 	for (int i = 0; i < node_count; i++) {
 		TreeNode t_node = nodes[i];
 		Vector3 v_a = vertices[t_node.a];
@@ -458,33 +502,35 @@ void MeshTree::build_tree(float p_max_distance, float p_branch_size, float p_cut
 		Vector3 v_b = vertices[t_node.b];
 		Vector3 v_b2 = v_b + Vector3(0.1, 0.0, 0.0);
 
-		points.push_back(v_a);
-		normals.push_back(Vector3(0.0, 0.0, -1.0));
+		data.points.push_back(v_a);
+		data.normals.push_back(Vector3(0.0, 0.0, -1.0));
 
-		points.push_back(v_a2);
-		normals.push_back(Vector3(0.0, 0.0, -1.0));
+		data.points.push_back(v_a2);
+		data.normals.push_back(Vector3(0.0, 0.0, -1.0));
 
-		points.push_back(v_b2);
-		normals.push_back(Vector3(0.0, 0.0, -1.0));
+		data.points.push_back(v_b2);
+		data.normals.push_back(Vector3(0.0, 0.0, -1.0));
 
-		points.push_back(v_b);
-		normals.push_back(Vector3(0.0, 0.0, -1.0));
+		data.points.push_back(v_b);
+		data.normals.push_back(Vector3(0.0, 0.0, -1.0));
 
-		indices.push_back((i * 4) + 0);
-		indices.push_back((i * 4) + 1);
-		indices.push_back((i * 4) + 2);
+		data.indices.push_back((i * 4) + 0);
+		data.indices.push_back((i * 4) + 1);
+		data.indices.push_back((i * 4) + 2);
 
-		indices.push_back((i * 4) + 0);
-		indices.push_back((i * 4) + 2);
-		indices.push_back((i * 4) + 3);
-	};
+		data.indices.push_back((i * 4) + 0);
+		data.indices.push_back((i * 4) + 2);
+		data.indices.push_back((i * 4) + 3);
+	}; */
 
 	/* apply mesh */
-	arr[ARRAY_VERTEX] = points;
-	arr[ARRAY_NORMAL] = normals;
-	//  arr[ARRAY_TANGENT] = tangents;
-	//  arr[ARRAY_TEX_UV] = uvs;
-	arr[ARRAY_INDEX] = indices;
+	Array arr;
+	arr.resize(ARRAY_MAX);
+	arr[ARRAY_VERTEX] = data.points;
+	arr[ARRAY_NORMAL] = data.normals;
+	// arr[ARRAY_TANGENT] = data.tangents;
+	// arr[ARRAY_TEX_UV] = data.uvs;
+	arr[ARRAY_INDEX] = data.indices;
 
 	owner->add_surface_from_arrays(Mesh::PRIMITIVE_TRIANGLES, arr);
 

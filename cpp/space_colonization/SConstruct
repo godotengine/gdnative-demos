@@ -3,7 +3,7 @@ import os
 
 platform = ARGUMENTS.get("platform", ARGUMENTS.get("p", "linux"))
 target = ARGUMENTS.get("target", "debug")
-godot_headers_path = ARGUMENTS.get("headers", "../../../godot_headers/")
+godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "../../../godot_headers/"))
 godot_bindings_path = ARGUMENTS.get("cpp_bindings", "../../../cpp_bindings/")
 
 # This makes sure to keep the session environment variables on windows, 

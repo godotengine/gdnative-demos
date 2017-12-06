@@ -18,6 +18,8 @@
 #include "attractionpoint.h"
 #include "treenode.h"
 
+#define M_PI 3.14159265358979323846
+
 namespace godot {
 
 class MeshTree : public GodotScript<ArrayMesh> {
@@ -56,13 +58,24 @@ private:
 	void remove_vertex(unsigned long p_idx);
 	unsigned long grow_branch(unsigned long pFromVertex, Vector3 pTo);
 
-	/* notes that form our tree */
+	/* nodes that form our tree */
 	TreeNode * nodes;
 	unsigned long max_nodes;
 	unsigned long node_count;
 	void add_node(TreeNode & p_node);
 	void remove_node(unsigned long p_idx);
 
+	/* building our mesh */
+	struct mesh_data {
+		PoolVector3Array points;
+		PoolVector3Array normals;
+		PoolRealArray tangents;
+		PoolVector2Array uvs;
+		PoolIntArray indices;
+	};
+	void add_rings(mesh_data *p_data, const int p_parent_node = -1, const int p_parent_first_vertex = -1, const Vector3 &p_parent_center = Vector3(0.0, 0.0, 0.0), const Vector3 &p_parent_bitangent = Vector3(1.0, 0.0, 0.0));
+
+	/* helper functions */
 	float randf(float pMin = -1.0f, float pMax = 1.0f);
 
 public:
