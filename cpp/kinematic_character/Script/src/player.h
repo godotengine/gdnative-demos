@@ -18,7 +18,6 @@
 #define PLAYER_H
 
 #include <Godot.hpp>
-
 #include <InputEvent.hpp>
 #include <RayCast2D.hpp>
 

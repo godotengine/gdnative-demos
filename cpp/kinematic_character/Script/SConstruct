@@ -1,14 +1,22 @@
 #!python
 import os
 
-env = Environment()
-
+# platform= makes it in line with Godots scons file, keeping p for backwards compatibility
 platform = ARGUMENTS.get("p", "linux")
-godot_headers_path = ARGUMENTS.get("headers", "godot_headers/")
-godot_bindings_path = ARGUMENTS.get("cpp_bindings", "cpp_bindings/")
-godot_src_path = ARGUMENTS.get("godotpath", "../../../../godot3-git/")
+platform = ARGUMENTS.get("platform", platform)
 
-godot_name = "godot." + ("x11" if platform == "linux" else platform) + ".tools.64"
+# This makes sure to keep the session environment variables on windows, 
+# that way you can run scons in a vs 2017 prompt and it will find all the required tools
+env = Environment()
+if platform == "windows":
+    env = Environment(ENV = os.environ)
+
+godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "godot_headers"))
+godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "cpp_bindings"))
+
+# default to debug build, must be same setting as used for cpp_bindings
+target = ARGUMENTS.get("target", "debug")
+
 
 if ARGUMENTS.get("use_llvm", "no") == "yes":
     env["CXX"] = "clang++"
@@ -22,22 +30,21 @@ elif platform == "linux":
     env.Append(LINKFLAGS = ['-Wl,-R,\'$$ORIGIN\''])
 elif platform == "windows":
     # need to add detection of msvc vs mingw, this is for msvc...
-    env.Append(CCFLAGS = ['/MD', '/WX', '/O2', '/EHsc', '/nologo'])
     env.Append(LINKFLAGS = ['/WX'])
+    if target == "debug":
+        env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '/MDd'])
+    else:
+        env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '/MD'])
 
 def add_sources(sources, dir):
     for f in os.listdir(dir):
         if f.endswith(".cpp"):
             sources.append(dir + "/" + f)
 
-env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + 'include/', godot_bindings_path + 'include/core/', 'src' ])
+env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + '/include/', godot_bindings_path + '/include/core/', 'src' ])
 
 env.Append(LIBS=['godot_cpp_bindings'])
-env.Append(LIBPATH=[ godot_bindings_path + 'bin/' ])
-
-if platform == "windows":
-    env.Append(LIBS=[ godot_name ]) 
-    env.Append(LIBPATH=[ godot_src_path + 'bin/' ])
+env.Append(LIBPATH=[ godot_bindings_path + '/bin/' ])
 
 sources = []
 add_sources(sources, "src")
