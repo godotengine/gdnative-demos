@@ -1,0 +1,17 @@
+[general]
+
+singleton=false
+load_once=false
+symbol_prefix="godot_"
+
+[entry]
+
+X11.64="res://Script/bin/libkinematic_char.so"
+Windows.64="res://Script/bin/libkinematic_char.dll"
+OSX.64="res://Script/bin/libkinematic_char.dylib"
+
+[dependencies]
+
+X11.64=[]
+Windows.64=[]
+OSX.64=[]

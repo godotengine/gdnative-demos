@@ -9,23 +9,13 @@
 [ext_resource path="res://Player Red/playerRed_up2.png" type="Texture" id=7]
 [ext_resource path="res://Player Red/playerRed_up3.png" type="Texture" id=8]
 
-[sub_resource type="GDNativeLibrary" id=3]
-
-platform/X11_32bit = ""
-platform/X11_64bit = "res://Script/bin/libkinematic_char.so"
-platform/Windows_32bit = ""
-platform/Windows_64bit = ""
-platform/OSX = ""
-platform/Android = ""
-platform/iOS = ""
-platform/WebAssembly = ""
-_sections_unfolded = [ "platform" ]
+[ext_resource path="res://Script/bin/libkinematic_char.gdnlib" type="GDNativeLibrary" id=9]
 
 [sub_resource type="NativeScript" id=4]
 
 resource_name = "GDPlayer"
 class_name = "GDPlayer"
-library = SubResource( 3 )
+library = ExtResource( 9 )
 
 [sub_resource type="SpriteFrames" id=1]
 
