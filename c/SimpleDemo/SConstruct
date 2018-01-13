@@ -17,7 +17,7 @@ if platform == "windows":
     env = Environment(ENV = os.environ)
 
 if ARGUMENTS.get("use_llvm", "no") == "yes":
-    env["CXX"] = "clang++"
+    env["CC"] = "clang"
 
 def add_sources(sources, directory):
     for file in os.listdir(directory):
