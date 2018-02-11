@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://bin/simple.gdnlib" type="GDNativeLibrary" id=3]
+
+[sub_resource type="NativeScript" id=1]
+
+resource_name = "SimpleSprite"
+class_name = "SimpleSprite"
+library = ExtResource( 3 )
 
 [node name="Node" type="Node" index="0"]
 
@@ -49,6 +57,11 @@ align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
+
+[node name="Sprite" type="Sprite" parent="." index="2"]
+
+texture = ExtResource( 2 )
+script = SubResource( 1 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 
