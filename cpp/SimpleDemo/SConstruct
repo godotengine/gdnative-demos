@@ -41,9 +41,9 @@ def add_sources(sources, dir):
         if f.endswith(".cpp"):
             sources.append(dir + "/" + f)
 
-env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + '/include/', godot_bindings_path + '/include/core/'])
+env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + '/include', godot_bindings_path + '/include/gen/', godot_bindings_path + '/include/core/'])
 
-env.Append(LIBS=['godot_cpp_bindings'])
+env.Append(LIBS=['godot-cpp.linux.64'])
 env.Append(LIBPATH=[ godot_bindings_path + '/bin/' ])
 
 sources = []
