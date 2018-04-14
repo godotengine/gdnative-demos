@@ -1,0 +1,17 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+
+[entry]
+
+X11.64="res://addons/gdtexturegen/x11/lib_gdtexturegen.so"
+Windows.64="res://addons/gdtexturegen/win64/lib_gdtexturegen.dll"
+OSX.64="res://addons/gdtexturegen/osx/lib_gdtexturegen.dylib"
+
+[dependencies]
+
+X11.64=[]
+Windows=[]
+OSX.64=[]

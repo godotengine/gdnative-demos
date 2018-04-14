@@ -1,0 +1,9 @@
+[submodule "cpp/texture_generator/cpp_bindings"]
+	path = cpp/texture_generator/cpp_bindings
+	url = https://github.com/GodotNativeTools/godot-cpp
+[submodule "cpp/texture_generator/godot_headers"]
+	path = cpp/texture_generator/godot_headers
+	url = https://github.com/GodotNativeTools/godot_headers
+[submodule "cpp/texture_generator/open-simplex-noise-in-c"]
+	path = cpp/texture_generator/open-simplex-noise-in-c
+	url = https://github.com/smcameron/open-simplex-noise-in-c

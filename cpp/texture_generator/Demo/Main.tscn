@@ -1,0 +1,131 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Texture.gd" type="Script" id=2]
+
+[sub_resource type="CubeMesh" id=1]
+
+size = Vector3( 2, 2, 2 )
+subdivide_width = 0
+subdivide_height = 0
+subdivide_depth = 0
+
+[sub_resource type="Shader" id=2]
+
+code = "shader_type spatial;
+render_mode unshaded;
+
+uniform sampler2D albedo_texture : hint_albedo;
+
+varying vec3 uvw;
+
+vec4 texture3d(vec3 p_uvw) {
+	vec3 mod_uvw = mod(p_uvw, 1.0);
+	if (mod_uvw.x < 0.0) {
+		mod_uvw.x += 1.0;
+	}
+	if (mod_uvw.y < 0.0) {
+		mod_uvw.y += 1.0;
+	}
+	if (mod_uvw.z < 0.0) {
+		mod_uvw.z += 1.0;
+	}
+	
+	float f128 = mod_uvw.z * 128.0;
+	float fz = floor(f128);
+	
+	vec2 uv1 = vec2(mod_uvw.x, (mod_uvw.y + fz) / 128.0);
+	vec2 uv2 = vec2(mod_uvw.x, (mod_uvw.y + fz + 1.0) / 128.0);
+	
+	vec4 col1 = texture(albedo_texture, uv1);
+	vec4 col2 = texture(albedo_texture, uv2);
+	
+	return mix(col1, col2, f128 - fz);
+}
+
+void vertex() {
+	uvw = VERTEX * 0.5 + 0.5;
+}
+
+void fragment() {
+	vec4 worley = texture3d(uvw);
+
+//	float value = worley.r + (0.5 * worley.g) + (0.25 * worley.b) + (0.125 * worley.a);
+//	value = 1.0 - value;
+
+//	ALBEDO = vec3(value, value, value); 
+	ALBEDO = worley.rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+
+render_priority = 0
+shader = SubResource( 2 )
+_sections_unfolded = [ "shader_param" ]
+
+[node name="Main" type="Spatial" index="0"]
+
+script = ExtResource( 1 )
+
+[node name="Test" type="MeshInstance" parent="." index="0"]
+
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -2.58333 )
+layers = 1
+material_override = null
+cast_shadow = 1
+extra_cull_margin = 0.0
+use_in_baked_light = false
+lod_min_distance = 0.0
+lod_min_hysteresis = 0.0
+lod_max_distance = 0.0
+lod_max_hysteresis = 0.0
+mesh = SubResource( 1 )
+skeleton = NodePath("..")
+material/0 = SubResource( 3 )
+script = ExtResource( 2 )
+_sections_unfolded = [ "Transform", "material" ]
+
+[node name="Camera" type="Camera" parent="." index="1"]
+
+transform = Transform( 0.99388, 0, 0.110462, 0, 1, 0, -0.110462, 0, 0.99388, -0.122262, 0, 0.411087 )
+keep_aspect = 1
+cull_mask = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+doppler_tracking = 0
+projection = 0
+current = false
+fov = 70.0
+size = 1.0
+near = 0.05
+far = 100.0
+
+[node name="Quit" type="Button" parent="." index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 16.0
+margin_top = 12.0
+margin_right = 140.0
+margin_bottom = 38.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Quit"
+flat = false
+align = 1
+
+[connection signal="pressed" from="Quit" to="." method="_on_Quit_pressed"]
+
+

@@ -1,0 +1,55 @@
+#!python
+import os, subprocess
+
+# Local dependency paths, adapt them to your setup
+godot_headers_path = "godot_headers/"
+cpp_bindings_path = "cpp_bindings/"
+cpp_bindings_library_path = "cpp_bindings/bin/godot_cpp_bindings"
+destination_path = "Demo/addons/gdtexturegen/"
+
+# set target to debug to include debug
+target = ARGUMENTS.get("target", "release")
+
+# get our target platform
+platform = ARGUMENTS.get("platform", "windows")
+
+# This makes sure to keep the session environment variables on windows, 
+# that way you can run scons in a vs 2017 prompt and it will find all the required tools
+env = Environment()
+if platform == "windows":
+    env = Environment(ENV = os.environ)
+
+if ARGUMENTS.get("use_llvm", "no") == "yes":
+    env["CXX"] = "clang++"
+
+def add_sources(sources, directory):
+    for file in os.listdir(directory):
+        if file.endswith('.cpp'):
+            sources.append(directory + '/' + file)
+
+if platform == "osx":
+    env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64'])
+    env.Append(LINKFLAGS = ['-arch', 'x86_64'])
+    destination_path = destination_path + 'osx/'
+elif platform == "linux":
+    env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c++14'])
+    destination_path = destination_path + 'x11/'
+elif platform == "windows":
+    if target == "debug":
+        env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '-MDd'])
+    else:
+        env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '-MD'])
+    destination_path = destination_path + 'win64/'
+
+# , 'include', 'include/core'
+env.Append(CPPPATH=['.', 'src/', 'open-simplex-noise-in-c/', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/'])
+env.Append(LIBS=[cpp_bindings_library_path])
+
+sources = []
+add_sources(sources, "src")
+
+# add simplex noise
+sources.append('open-simplex-noise-in-c/open-simplex-noise.c')
+
+library = env.SharedLibrary(target=destination_path + 'lib_gdtexturegen', source=sources)
+Default(library)
