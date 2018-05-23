@@ -5,7 +5,7 @@
 script/source = "extends Node2D
 
 # load the GLFW library
-onready var window = preload(\"res://GLFW.gdn\").new()
+onready var window = preload(\"res://GLFW.gdns\").new()
 
 func _ready():
 
@@ -35,7 +35,7 @@ func _notification(what):
             window.close()
 "
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" index="0"]
 
 script = SubResource( 1 )
 
