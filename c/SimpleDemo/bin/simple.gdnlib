@@ -7,12 +7,14 @@ symbol_prefix="godot_"
 
 [entry]
 
-X11.64="res://bin/libsimple.so"
-Windows.64="res://bin/simple.dll"
-OSX.64="res://bin/libsimple.dylib"
+X11.64="res://bin/linux/libsimple.so"
+Windows.64="res://bin/windows/libsimple.dll"
+UWP.64="res://bin/uwp/libsimple.dll"
+OSX.64="res://bin/osx/libsimple.dylib"
 
 [dependencies]
 
 X11.64=[]
 Windows=[]
 OSX.64=[]
+UWP.64=[]

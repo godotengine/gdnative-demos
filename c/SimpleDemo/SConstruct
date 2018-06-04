@@ -1,8 +1,8 @@
 #!python
 import os, subprocess
 
-# Local dependency paths, adapt them to your setup
-godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "../../../godot_headers/"))
+# Godot headers, use our submodule by default
+godot_headers_path = ARGUMENTS.get("headers", "godot_headers")
 
 target = ARGUMENTS.get("target", "debug")
 
@@ -28,14 +28,51 @@ if platform == "osx":
     env.Append(CCFLAGS = ['-g','-O3', '-arch', 'x86_64'])
     env.Append(LINKFLAGS = ['-arch', 'x86_64'])
 
-if platform == "linux":
+elif platform == "linux":
     env.Append(CCFLAGS = ['-fPIC', '-g','-O3', '-std=c11'])
 
-if platform == "windows":
+elif platform == "windows":
     if target == "debug":
         env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '/MDd'])
     else:
         env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '/MD'])
+
+elif platform == 'uwp':
+    # blatently stolen from godot uwp platform, I have no idea what half of this does...
+    vc_base_path = os.environ['VCTOOLSINSTALLDIR'] if "VCTOOLSINSTALLDIR" in os.environ else os.environ['VCINSTALLDIR']
+
+    if target == "debug":
+        env.Append(CCFLAGS=['/Zi', '/DDEBUG_ENABLED', '/DDEBUG_MEMORY_ENABLED'])
+        env.Append(CPPFLAGS=['/MDd'])
+        env.Append(LINKFLAGS=['/DEBUG'])
+    else:
+        env.Append(CPPFLAGS=['/O2', '/GL'])
+        env.Append(CPPFLAGS=['/MD'])
+        env.Append(LINKFLAGS=['/LTCG'])
+
+    env.Append(LINKFLAGS=['/MACHINE:X64'])
+
+    env.Append(CPPPATH=['#platform/uwp', '#drivers/windows'])
+    env.Append(CCFLAGS=['/DUWP_ENABLED', '/DWINDOWS_ENABLED', '/DTYPED_METHOD_BIND'])
+    env.Append(CCFLAGS=['/DGLES_ENABLED', '/DGL_GLEXT_PROTOTYPES', '/DEGL_EGLEXT_PROTOTYPES', '/DANGLE_ENABLED'])
+    winver = "0x0602" # Windows 8 is the minimum target for UWP build
+    env.Append(CCFLAGS=['/DWINVER=%s' % winver, '/D_WIN32_WINNT=%s' % winver])
+
+    env.Append(CPPFLAGS=['/AI', vc_base_path + 'lib/store/references'])
+    env.Append(CPPFLAGS=['/AI', vc_base_path + 'lib/x86/store/references'])
+
+    env.Append(CCFLAGS='/FS /MP /GS /wd"4453" /wd"28204" /wd"4291" /Zc:wchar_t /Gm- /fp:precise /D "_UNICODE" /D "UNICODE" /D "WINAPI_FAMILY=WINAPI_FAMILY_APP" /errorReport:prompt /WX- /Zc:forScope /Gd /EHsc /nologo'.split())
+    env.Append(CXXFLAGS='/ZW /FS'.split())
+    env.Append(CCFLAGS=['/AI', vc_base_path + '\\vcpackages', '/AI', os.environ['WINDOWSSDKDIR'] + '\\References\\CommonConfiguration\\Neutral'])
+
+    env.Append(LINKFLAGS=['/MANIFEST:NO', '/NXCOMPAT', '/DYNAMICBASE', '/WINMD', '/APPCONTAINER', '/ERRORREPORT:PROMPT', '/NOLOGO', '/TLBID:1', '/NODEFAULTLIB:"kernel32.lib"', '/NODEFAULTLIB:"ole32.lib"'])
+
+    LIBS = [
+        'WindowsApp',
+        'mincore',
+    ]
+    env.Append(LINKFLAGS=[p + ".lib" for p in LIBS])
+
 
 # , 'include', 'include/core'
 env.Append(CPPPATH=['.', godot_headers_path])
@@ -43,5 +80,5 @@ env.Append(CPPPATH=['.', godot_headers_path])
 sources = []
 add_sources(sources, "src")
 
-library = env.SharedLibrary(target='bin/simple', source=sources)
+library = env.SharedLibrary(target='bin/' + platform + '/libsimple', source=sources)
 Default(library)
