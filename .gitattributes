@@ -4,3 +4,5 @@
 *.tscn eol=lf
 *.cfg eol=lf
 *.godot eol=lf
+*.gdns eol=lf
+*.gdnlib eol=lf
