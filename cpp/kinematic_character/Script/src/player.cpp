@@ -14,13 +14,13 @@
  * limitations under the License.
  **/
 
-#include <player.h>
+#include "player.h"
+#include "colworld.h"
 
 #include <AnimatedSprite.hpp>
 #include <Input.hpp>
 #include <cmath>
 
-#include <colworld.h>
 #include <ClassDB.hpp>
 
 using namespace godot;
@@ -58,13 +58,13 @@ void GDPlayer::_init() {
 }
 
 void GDPlayer::_ready() {
-	ray0 = ((RayCast2D *)owner->get_node("Ray0"));
-	ray1 = ((RayCast2D *)owner->get_node("Ray1"));
+	ray0 = ((RayCast2D *)get_node("Ray0"));
+	ray1 = ((RayCast2D *)get_node("Ray1"));
 
-	ray0->add_exception(owner);
-	ray1->add_exception(owner);
+	ray0->add_exception(this);
+	ray1->add_exception(this);
 
-	owner->connect("move", owner, "_move");
+	connect("move", this, "_move");
 }
 
 void GDPlayer::moving() {
@@ -74,9 +74,9 @@ void GDPlayer::moving() {
 void GDPlayer::_physics_process(const float delta) {
 	Vector2 _force = Vector2(0, _gravity);
 
-	bool left = Input::is_action_pressed("ui_left");
-	bool right = Input::is_action_pressed("ui_right");
-	bool jump = Input::is_action_pressed("ui_up");
+	bool left = Input::get_singleton()->is_action_pressed("ui_left");
+	bool right = Input::get_singleton()->is_action_pressed("ui_right");
+	bool jump = Input::get_singleton()->is_action_pressed("ui_up");
 
 	bool stop = true;
 
@@ -108,18 +108,18 @@ void GDPlayer::_physics_process(const float delta) {
 	// Integrate forces to velocity
 	_velocity += _force * delta;
 	// Integrate velocity into motion and move
-	_velocity = owner->move_and_slide(_velocity, Vector2(0, -1));
+	_velocity = move_and_slide(_velocity, Vector2(0, -1));
 
 	bool floor_colliding = (ray0->is_colliding() || ray1->is_colliding());
 
-	if (owner->is_on_floor() || floor_colliding) {
+	if (is_on_floor() || floor_colliding) {
 		_on_air_time = 0;
 	}
 
 	if (_on_air_time < _max_airborn_time && jump && !_prev_jump_pressed && !_jumping) {
 		_velocity.y = -_jump_speed;
 		_jumping = false;
-		owner->emit_signal("move");
+		emit_signal("move");
 	}
 
 	_on_air_time += delta;
@@ -134,14 +134,14 @@ void GDPlayer::_physics_process(const float delta) {
 	bool animating = false;
 
 	if (left) {
-		((AnimatedSprite *)owner->get_node("AnimatedSprite"))->set_flip_h(true);
+		((AnimatedSprite *)get_node("AnimatedSprite"))->set_flip_h(true);
 		if (floor_colliding) {
 			_current_anim = "Run";
 		}
 		animating = true;
 	}
 	if (right) {
-		((AnimatedSprite *)owner->get_node("AnimatedSprite"))->set_flip_h(false);
+		((AnimatedSprite *)get_node("AnimatedSprite"))->set_flip_h(false);
 		if (floor_colliding) {
 			_current_anim = "Run";
 		}
@@ -159,7 +159,7 @@ void GDPlayer::_physics_process(const float delta) {
 		_current_anim = "Default";
 	}
 
-	((AnimatedSprite *)owner->get_node("AnimatedSprite"))->play(_current_anim);
+	((AnimatedSprite *)get_node("AnimatedSprite"))->play(_current_anim);
 }
 
 void GDPlayer::_register_methods() {

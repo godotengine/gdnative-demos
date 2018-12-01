@@ -11,8 +11,8 @@ env = Environment()
 if platform == "windows":
     env = Environment(ENV = os.environ)
 
-godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "godot_headers"))
-godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "cpp_bindings"))
+godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "godot-cpp/godot_headers"))
+godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "godot-cpp"))
 
 # default to debug build, must be same setting as used for cpp_bindings
 target = ARGUMENTS.get("target", "debug")
@@ -41,9 +41,12 @@ def add_sources(sources, dir):
         if f.endswith(".cpp"):
             sources.append(dir + "/" + f)
 
-env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + '/include/', godot_bindings_path + '/include/core/', 'src' ])
+env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + '/include/gen/', godot_bindings_path + '/include/core/', godot_bindings_path + '/include/'])
 
-env.Append(LIBS=['godot_cpp_bindings'])
+if target == "debug":
+    env.Append(LIBS=['libgodot-cpp.linux.debug.64'])
+else:
+    env.Append(LIBS=['libgodot-cpp.linux.release.64'])
 env.Append(LIBPATH=[ godot_bindings_path + '/bin/' ])
 
 sources = []
