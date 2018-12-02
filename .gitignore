@@ -1,12 +1,148 @@
-*.o
+# Godot-specific ignores
+.import/
+export.cfg
+export_presets.cfg
+.fscache
+logs/
+
+# Mono-specific ignores
+.mono/
+
+# System/tool-specific ignores
+.directory
+*.dblite
+*~
+logs
 *.os
+*.exp
+
+# Vim temp files
+*.swo
+*.swp
+
+# QT project files
+*.config
+*.creator
+*.creator.*
+*.files
+*.includes
+
+# Eclipse CDT files
+.cproject
+.settings/
+
+# Geany/geany-plugins files
+*.geany
+.geanyprj
+
+# User-specific files
+*.suo
+*.user
+*.sln.docstates
+*.sln
+*.vcxproj*
+
+# Visual C++ cache files
+ipch/
+*.aps
+*.ncb
+*.opensdf
+*.sdf
+*.cachefile
+*.VC.db
+*.VC.opendb
+*.VC.VC.opendb
+enc_temp_folder/
+
+# Visual Studio profiler
+*.psess
+*.vsp
+*.vspx
+
+#Kdevelop project files
+*.kdev4
+
+# CodeLite project files
+*.project
+*.workspace
+.codelite/
+
+# TFS 2012 Local Workspace
+$tf/
+
+# Microsoft Fakes
+FakesAssemblies/
+
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+logo.h
+*.autosave
+
+# https://github.com/github/gitignore/blob/master/Global/Tags.gitignore
+# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+TAGS
+!TAGS/
+tags
+*.tags
+!tags/
+gtags.files
+GTAGS
+GRTAGS
+GPATH
+cscope.files
+cscope.out
+cscope.in.out
+cscope.po.out
+godot.creator.*
+
+projects/
+platform/windows/godot_res.res
+
+# Visual Studio 2017 and Visual Studio Code workspace folder
+/.vs
+/.vscode
+
+# Scons progress indicator
+.scons_node_count
+
+# GDNative ignores
+cpp_bindings/
+godot_headers/
+godot-cpp/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
 *.so
 *.dylib
-.import
-*.import
-*.dblite
 *.dll
-*.exp
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
 *.lib
-*.obj
-logs
+
+# Executables
+*.exe
+*.out
+*.app

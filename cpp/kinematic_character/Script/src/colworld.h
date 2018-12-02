@@ -23,8 +23,8 @@
 
 namespace godot {
 
-class ColWorld : public GodotScript<Node2D> {
-	GODOT_CLASS(ColWorld)
+class ColWorld : public Node2D {
+	GODOT_CLASS(ColWorld, Node2D)
 
 public:
 	ColWorld();
