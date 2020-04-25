@@ -1,58 +1,216 @@
 #!python
-import os
+import os 
+import sys
+import subprocess
 
-# platform= makes it in line with Godots scons file, keeping p for backwards compatibility
-platform = ARGUMENTS.get("p", "linux")
-platform = ARGUMENTS.get("platform", platform)
-
-# This makes sure to keep the session environment variables on windows, 
-# that way you can run scons in a vs 2017 prompt and it will find all the required tools
-env = Environment()
-if platform == "windows":
-    env = Environment(ENV = os.environ)
-
-godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "godot-cpp/godot_headers"))
-godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "godot-cpp"))
-
-# default to debug build, must be same setting as used for cpp_bindings
-target = ARGUMENTS.get("target", "debug")
-
-
-if ARGUMENTS.get("use_llvm", "no") == "yes":
-    env["CXX"] = "clang++"
-
-# put stuff that is the same for all first, saves duplication 
-if platform == "osx":
-    env.Append(CCFLAGS = ['-g','-O3', '-std=c++14', '-arch', 'x86_64'])
-    env.Append(LINKFLAGS = ['-arch', 'x86_64', '-framework', 'Cocoa', '-Wl,-undefined,dynamic_lookup'])
-elif platform == "linux":
-    env.Append(CCFLAGS = ['-g','-O3', '-std=c++14', '-Wno-writable-strings'])
-    env.Append(LINKFLAGS = ['-Wl,-R,\'$$ORIGIN\''])
-elif platform == "windows":
-    # need to add detection of msvc vs mingw, this is for msvc...
-    env.Append(LINKFLAGS = ['/WX'])
-    if target == "debug":
-        env.Append(CCFLAGS = ['-EHsc', '-D_DEBUG', '/MDd'])
-    else:
-        env.Append(CCFLAGS = ['-O2', '-EHsc', '-DNDEBUG', '/MD'])
-
-def add_sources(sources, dir):
-    for f in os.listdir(dir):
-        if f.endswith(".cpp"):
-            sources.append(dir + "/" + f)
-
-env.Append(CPPPATH=[godot_headers_path, godot_bindings_path + '/include', godot_bindings_path + '/include/gen/', godot_bindings_path + '/include/core/'])
-
-if target == "debug":
-    env.Append(LIBS=['libgodot-cpp.linux.debug.64'])
+if sys.version_info < (3,):
+    def decode_utf8(x):
+        return x
 else:
-    env.Append(LIBS=['libgodot-cpp.linux.release.64'])
+    import codecs
+    def decode_utf8(x):
+        return codecs.utf_8_decode(x)[0]
 
-env.Append(LIBPATH=[ godot_bindings_path + '/bin/' ])
+# Workaround for MinGW. See:
+# http://www.scons.org/wiki/LongCmdLinesOnWin32
+if (os.name=="nt"):
+    import subprocess
 
-sources = []
-add_sources(sources, "src")
+    def mySubProcess(cmdline,env):
+        #print "SPAWNED : " + cmdline
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        proc = subprocess.Popen(cmdline, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE, startupinfo=startupinfo, shell = False, env = env)
+        data, err = proc.communicate()
+        rv = proc.wait()
+        if rv:
+            print("=====")
+            print(err.decode("utf-8"))
+            print("=====")
+        return rv
 
-library = env.SharedLibrary(target='bin/libsimple', source=sources)
+    def mySpawn(sh, escape, cmd, args, env):
+
+        newargs = ' '.join(args[1:])
+        cmdline = cmd + " " + newargs
+
+        rv=0
+        if len(cmdline) > 32000 and cmd.endswith("ar") :
+            cmdline = cmd + " " + args[1] + " " + args[2] + " "
+            for i in range(3,len(args)) :
+                rv = mySubProcess( cmdline + args[i], env )
+                if rv :
+                    break
+        else:
+            rv = mySubProcess( cmdline, env )
+
+        return rv
+        
+        
+# Try to detect the host platform automatically.
+# This is used if no `platform` argument is passed
+if sys.platform.startswith('linux'):
+    host_platform = 'linux'
+elif sys.platform == 'darwin':
+    host_platform = 'osx'
+elif sys.platform == 'win32' or sys.platform == 'msys':
+    host_platform = 'windows'
+else:
+    raise ValueError(
+        'Could not detect platform automatically, please specify with '
+        'platform=<platform>'
+    )
+    
+opts = Variables([], ARGUMENTS)
+
+# Gets the standard flags CC, CCX, etc.
+env = DefaultEnvironment()
+
+# Define our options
+opts.Add(EnumVariable('target', "Compilation target", 'debug', ['d', 'debug', 'r', 'release']))
+opts.Add(EnumVariable('platform', "Compilation platform", '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(EnumVariable('p', "Compilation target, alias for 'platform'", '', ['', 'windows', 'x11', 'linux', 'osx']))
+opts.Add(BoolVariable('use_llvm', "Use the LLVM / Clang compiler", 'no'))
+opts.Add(PathVariable('target_path', 'The path where the lib is installed.', 'bin/'))
+opts.Add(PathVariable('target_name', 'The library name.', 'libSimpleDemo', PathVariable.PathAccept))
+
+opts.Add(EnumVariable(
+    'bits',
+    'Target platform bits',
+    'default',
+    ('default', '32', '64')
+))
+
+opts.Add(BoolVariable(
+    'use_mingw',
+    'Use the MinGW compiler instead of MSVC - only effective on Windows',
+    False
+))
+
+
+# Local dependency paths, adapt them to your setup
+godot_headers_path = "../../godot-cpp/godot_headers/"
+cpp_bindings_path = "../../godot-cpp/"
+cpp_library = "libgodot-cpp"
+
+# Updates the environment with the option variables.
+env = Environment(ENV = os.environ)
+opts.Update(env)
+Help(opts.GenerateHelpText(env))
+
+is64 = sys.maxsize > 2**32
+if (
+    env['TARGET_ARCH'] == 'amd64' or
+    env['TARGET_ARCH'] == 'emt64' or
+    env['TARGET_ARCH'] == 'x86_64' 
+):
+    is64 = True
+    
+if env['bits'] == 'default':
+    env['bits'] = '64' if is64 else '32'
+    
+    
+if env['bits'] == '64':
+    bits = 64
+else :
+    bits = 32
+    
+# This makes sure to keep the session environment variables on Windows.
+# This way, you can run SCons in a Visual Studio 2017 prompt and it will find
+# all the required tools
+if host_platform == 'windows' and env['platform'] != 'android':
+    if env['bits'] == '64':
+        env = Environment(TARGET_ARCH='amd64')
+    elif env['bits'] == '32':
+        env = Environment(TARGET_ARCH='x86')
+
+    opts.Update(env)
+
+# Process some arguments
+if env['use_llvm']:
+    env['CC'] = 'clang'
+    env['CXX'] = 'clang++'
+
+if env['p'] != '':
+    env['platform'] = env['p']
+
+if env['platform'] == '':
+    print("No valid target platform selected.")
+    quit();
+
+# For the reference:
+# - CCFLAGS are compilation flags shared between C and C++
+# - CFLAGS are for C-specific compilation flags
+# - CXXFLAGS are for C++-specific compilation flags
+# - CPPFLAGS are for pre-processor flags
+# - CPPDEFINES are for pre-processor defines
+# - LINKFLAGS are for linking flags
+
+# Check our platform specifics
+if env['platform'] == "osx":
+    env['target_path'] += 'osx/'
+    cpp_library += '.osx'
+    if env['target'] in ('debug', 'd'):
+        env.Append(CCFLAGS=['-g', '-O2', '-arch', 'x86_64'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64'])
+    else:
+        env.Append(CCFLAGS=['-g', '-O3', '-arch', 'x86_64'])
+        env.Append(LINKFLAGS=['-arch', 'x86_64'])
+
+elif env['platform'] in ('x11', 'linux'):
+    env['target_path'] += 'x11/'
+    cpp_library += '.linux'
+    if env['target'] in ('debug', 'd'):
+        env.Append(CCFLAGS=['-fPIC', '-g3', '-Og'])
+        env.Append(CXXFLAGS=['-std=c++17'])
+    else:
+        env.Append(CCFLAGS=['-fPIC', '-g', '-O3'])
+        env.Append(CXXFLAGS=['-std=c++17'])
+
+elif env['platform'] == "windows":
+    env['target_path'] += 'win64/'
+    cpp_library += '.windows'
+    # This makes sure to keep the session environment variables on windows,
+    # that way you can run scons in a vs 2017 prompt and it will find all the required tools
+    env.Append(ENV=os.environ)
+
+    env.Append(CPPDEFINES=['WIN32', '_WIN32', '_WINDOWS', '_CRT_SECURE_NO_WARNINGS'])
+    env.Append(CCFLAGS=['-W3', '-GR'])
+    if env['target'] in ('debug', 'd'):
+        env.Append(CPPDEFINES=['_DEBUG'])
+        env.Append(CCFLAGS=['-EHsc', '-MDd', '-ZI'])
+        env.Append(LINKFLAGS=['-DEBUG'])
+    else:
+        env.Append(CPPDEFINES=['NDEBUG'])
+        env.Append(CCFLAGS=['-O2', '-EHsc', '-MD'])
+else:
+    raise ValueError(
+        'Platform not supported !'
+    )
+
+if env['target'] in ('debug', 'd'):
+    cpp_library += '.debug'
+else:
+    cpp_library += '.release'
+
+cpp_library += '.' + str(bits)
+
+# make sure our binding library is properly includes
+env.Append(CPPPATH=['.', godot_headers_path, cpp_bindings_path + 'include/', cpp_bindings_path + 'include/core/', cpp_bindings_path + 'include/gen/'])
+env.Append(LIBPATH=[cpp_bindings_path + 'bin/'])
+env.Append(LIBS=[cpp_library])
+
+# tweak this if you want to use different folders, or more folders, to store your source code in.
+env.Append(CPPPATH=['src/'])
+sources = Glob('src/*.cpp')
+
+library = env.SharedLibrary( target=env['target_path'] + env['target_name'] , source=sources)
+
 Default(library)
+
+
+
+
+
 

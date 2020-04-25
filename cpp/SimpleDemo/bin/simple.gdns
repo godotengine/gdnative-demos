@@ -3,7 +3,6 @@
 [ext_resource path="res://bin/simple.gdnlib" type="GDNativeLibrary" id=1]
 
 [resource]
-
 class_name = "Simple"
 library = ExtResource( 1 )
-
+script_class_name = "Simple"

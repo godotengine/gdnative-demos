@@ -8,17 +8,25 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "",
+"class": "Simple",
+"language": "NativeScript",
+"path": "res://bin/simple.gdns"
+} ]
 _global_script_class_icons={
-
+"Simple": ""
 }
 
 [application]
 
-config/name="New Game Project"
+config/name="SimpleDemo"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
 environment/default_environment="res://default_env.tres"

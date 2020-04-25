@@ -1,0 +1,23 @@
+#Configure android arch :
+#ARCH=armv7
+ARCH=arm64v8
+
+GODOT_CPP_PATH=..\..
+ifeq ($(ARCH), armv7)
+  CC=armv7a-linux-androideabi29-clang++
+else
+  CC=aarch64-linux-android29-clang++
+endif
+CFLAGS=-fPIC -g -O3 -std=c++14 -I$(GODOT_CPP_PATH)\godot-cpp\include -I$(GODOT_CPP_PATH)\godot-cpp\include\core -I$(GODOT_CPP_PATH)\godot-cpp\include\gen -I$(GODOT_CPP_PATH)\godot-cpp\godot_headers
+SRC=src\entry.cpp src\Simple.cpp
+OBJ=$(SRC:.cpp=.os)
+LDFLAGS=-shared -L$(GODOT_CPP_PATH)\godot-cpp\bin -lgodot-cpp.android.debug.$(ARCH)
+EXEC=bin\libSimpleDemo.android.$(ARCH).so
+
+all: $(EXEC)
+
+$(EXEC): $(OBJ)
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+%.os: %.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
