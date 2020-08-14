@@ -10,7 +10,7 @@ git clone --recursive https://github.com/GodotNativeTools/godot-cpp
 
 
 ### Updating the api.json
-Our api.json file contains meta data of all the classes that are part of the Godot core and are needed to generate the C++ binding classes for use in GDNative modules. 
+Our api.json file contains meta data of all the classes that are part of the Godot core and are needed to generate the C++ binding classes for use in GDNative modules.
 
 This file is supplied with our godot_headers repository for your convinience but if you are running a custom build of Godot and need access to classes that have recent changes a new api.json file must be generated. You do this by starting your Godot executable with the following parameters:
 

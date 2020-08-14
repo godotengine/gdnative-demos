@@ -80,7 +80,6 @@ void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *optio
 
 void GDN_EXPORT godot_nativescript_init(void *handle)
 {
-
 	printf("nativescript_init\n");
 
 	fflush(stdout);

@@ -5,7 +5,7 @@ import os
 platform = ARGUMENTS.get("p", "linux")
 platform = ARGUMENTS.get("platform", platform)
 
-# This makes sure to keep the session environment variables on windows, 
+# This makes sure to keep the session environment variables on windows,
 # that way you can run scons in a vs 2017 prompt and it will find all the required tools
 env = Environment()
 if platform == "windows":
@@ -21,7 +21,7 @@ target = ARGUMENTS.get("target", "debug")
 if ARGUMENTS.get("use_llvm", "no") == "yes":
     env["CXX"] = "clang++"
 
-# put stuff that is the same for all first, saves duplication 
+# put stuff that is the same for all first, saves duplication
 if platform == "osx":
     env.Append(CCFLAGS = ['-g','-O3', '-std=c++14', '-arch', 'x86_64'])
     env.Append(LINKFLAGS = ['-arch', 'x86_64', '-framework', 'Cocoa', '-Wl,-undefined,dynamic_lookup'])

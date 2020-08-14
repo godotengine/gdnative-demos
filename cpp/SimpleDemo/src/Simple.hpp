@@ -5,7 +5,7 @@
 
 class Simple : public godot::Reference {
 	GODOT_CLASS(Simple, godot::Reference)
-	
+
 	godot::String data;
 public:
 

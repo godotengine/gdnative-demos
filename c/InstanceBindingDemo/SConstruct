@@ -10,7 +10,7 @@ target = ARGUMENTS.get("target", "debug")
 platform = ARGUMENTS.get("p", "linux")
 platform = ARGUMENTS.get("platform", platform)
 
-# This makes sure to keep the session environment variables on windows, 
+# This makes sure to keep the session environment variables on windows,
 # that way you can run scons in a vs 2017 prompt and it will find all the required tools
 env = Environment()
 if platform == "windows":

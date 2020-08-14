@@ -21,7 +21,6 @@ public:
 	}
 
 	int test_method(String s) {
-
 		Godot::print(s);
 		count++;
 
@@ -49,4 +48,4 @@ public:
 	static void _register_methods() {
 		register_method("test_method", &TestClass::test_method);
 	}
-}; 
+};
