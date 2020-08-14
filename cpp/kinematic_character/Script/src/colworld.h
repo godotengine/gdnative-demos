@@ -36,6 +36,6 @@ public:
 
 	static void _register_methods();
 };
-}
+} // namespace godot
 
 #endif // COLWORLD_H

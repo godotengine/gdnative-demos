@@ -23,7 +23,8 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options) {
 			case GDNATIVE_EXT_NATIVESCRIPT: {
 				nativescript_api = (godot_gdnative_ext_nativescript_api_struct *)api->extensions[i];
 			}; break;
-			default: break;
+			default:
+				break;
 		};
 	};
 }
@@ -68,7 +69,7 @@ GDCALLINGCONV void simple_destructor(godot_object *p_instance, void *p_method_da
 godot_variant simple_get_data(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
 	godot_string data;
 	godot_variant ret;
-	user_data_struct * user_data = (user_data_struct *) p_user_data;
+	user_data_struct *user_data = (user_data_struct *)p_user_data;
 
 	api->godot_string_new(&data);
 	api->godot_string_parse_utf8(&data, user_data->data);

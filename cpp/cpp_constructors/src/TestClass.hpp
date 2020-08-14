@@ -1,9 +1,8 @@
+#include <File.hpp>
 #include <Reference.hpp>
 #include <Timer.hpp>
-#include <File.hpp>
 
 #include <Ref.hpp>
-
 
 #include <stdio.h>
 
@@ -15,7 +14,6 @@ class TestClass : public Reference {
 	int count;
 
 public:
-
 	void _init() {
 		count = 34;
 	}

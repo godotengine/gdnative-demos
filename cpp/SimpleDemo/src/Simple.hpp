@@ -7,8 +7,8 @@ class Simple : public godot::Reference {
 	GODOT_CLASS(Simple, godot::Reference)
 
 	godot::String data;
-public:
 
+public:
 	static void _register_methods();
 
 	void _init();
