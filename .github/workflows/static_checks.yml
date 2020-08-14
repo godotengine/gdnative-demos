@@ -1,0 +1,28 @@
+name: Static Checks
+on: [push, pull_request]
+
+jobs:
+  static-checks:
+    name: Formatting (clang-format, black format, file format)
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq dos2unix recode clang-format
+          sudo pip3 install git+https://github.com/psf/black@master
+
+      - name: File formatting checks (file_format.sh)
+        run: |
+          bash ./.github/workflows/scripts/file_format.sh
+
+      - name: C/C++ style checks via clang-format (clang_format.sh)
+        run: |
+          bash ./.github/workflows/scripts/clang_format.sh
+
+      - name: Python style checks via black (black_format.sh)
+        run: |
+          bash ./.github/workflows/scripts/black_format.sh
