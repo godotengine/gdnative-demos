@@ -16,8 +16,8 @@
 
 #include <Godot.hpp>
 
-#include <colworld.h>
-#include <player.h>
+#include "colworld.h"
+#include "player.h"
 
 using namespace godot;
 

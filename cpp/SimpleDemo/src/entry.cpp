@@ -18,4 +18,5 @@ extern "C" void GDN_EXPORT godot_nativescript_init(void *handle)
 
 
 	godot::register_class<Simple>();
+	godot::register_class<SimpleSprite>();
 }

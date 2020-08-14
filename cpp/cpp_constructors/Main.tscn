@@ -3,11 +3,7 @@
 [ext_resource path="res://Main.gd" type="Script" id=1]
 
 [node name="Main" type="Control"]
-
 margin_right = 40.0
 margin_bottom = 40.0
-rect_clip_content = false
-mouse_filter = 0
 script = ExtResource( 1 )
-
 

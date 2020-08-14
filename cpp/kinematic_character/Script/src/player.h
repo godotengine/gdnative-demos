@@ -25,8 +25,8 @@
 
 using namespace godot;
 
-class GDPlayer : public GodotScript<KinematicBody2D> {
-	GODOT_CLASS(GDPlayer)
+class GDPlayer : public KinematicBody2D {
+	GODOT_CLASS(GDPlayer, KinematicBody2D)
 
 public:
 	GDPlayer();

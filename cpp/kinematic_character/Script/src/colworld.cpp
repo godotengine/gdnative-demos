@@ -14,7 +14,7 @@
  * limitations under the License.
  **/
 
-#include <colworld.h>
+#include "colworld.h"
 #include <Label.hpp>
 
 using namespace godot;
@@ -29,18 +29,18 @@ void ColWorld::_init() {
 }
 
 void ColWorld::_ready() {
-	owner->get_node("princess")->connect("body_entered", owner, "_on_princess_body_enter");
+	get_node("princess")->connect("body_entered", this, "_on_princess_body_enter");
 }
 
 void ColWorld::_on_princess_body_enter(KinematicBody2D *body) {
 	if (body->get_name() == "Character") {
-		((Label *)owner->get_node("youwin"))->show();
+		((Label *)get_node("youwin"))->show();
 	}
 }
 
 void ColWorld::_register_methods() {
-	register_method((char *)"_init", &ColWorld::_init);
-	register_method((char *)"_ready", &ColWorld::_ready);
+	register_method("_init", &ColWorld::_init);
+	register_method("_ready", &ColWorld::_ready);
 
-	register_method((char *)"_on_princess_body_enter", &ColWorld::_on_princess_body_enter);
+	register_method("_on_princess_body_enter", &ColWorld::_on_princess_body_enter);
 }

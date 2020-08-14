@@ -47,12 +47,11 @@ if target == "debug":
     env.Append(LIBS=['libgodot-cpp.linux.debug.64'])
 else:
     env.Append(LIBS=['libgodot-cpp.linux.release.64'])
-
 env.Append(LIBPATH=[ godot_bindings_path + '/bin/' ])
 
 sources = []
 add_sources(sources, "src")
 
-library = env.SharedLibrary(target='bin/libsimple', source=sources)
+library = env.SharedLibrary(target='bin/libconstructor', source=sources)
 Default(library)
 

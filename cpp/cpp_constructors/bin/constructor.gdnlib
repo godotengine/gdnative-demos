@@ -1,0 +1,16 @@
+[entry]
+
+X11.64="res://bin/libconstructor.so"
+X11.32="res://bin/libconstructor.so"
+
+[dependencies]
+
+X11.64=[  ]
+X11.32=[  ]
+
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true
