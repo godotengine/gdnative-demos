@@ -1,9 +1,8 @@
+#include <File.hpp>
 #include <Reference.hpp>
 #include <Timer.hpp>
-#include <File.hpp>
 
 #include <Ref.hpp>
-
 
 #include <stdio.h>
 
@@ -15,13 +14,11 @@ class TestClass : public Reference {
 	int count;
 
 public:
-
 	void _init() {
 		count = 34;
 	}
 
 	int test_method(String s) {
-
 		Godot::print(s);
 		count++;
 
@@ -49,4 +46,4 @@ public:
 	static void _register_methods() {
 		register_method("test_method", &TestClass::test_method);
 	}
-}; 
+};

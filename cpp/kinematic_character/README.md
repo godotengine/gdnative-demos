@@ -1,6 +1,6 @@
 # GDNative example of a kinematic character
 
-This is a demo showing how to use GDNative together with the cpp_bindings layer to implement a couple of new nodes. 
+This is a demo showing how to use GDNative together with the cpp_bindings layer to implement a couple of new nodes.
 This demo was originally created by Ramesh Ravone.
 
 Before compiling this module you must clone https://github.com/GodotNativeTools/godot_headers and https://github.com/GodotNativeTools/godot-cpp

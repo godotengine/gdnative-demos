@@ -6,5 +6,5 @@ onready var data = InstanceBindingDemo.new()
 
 func _on_Button_pressed():
 	# do the test here
-	
+
 	pass

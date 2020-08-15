@@ -5,10 +5,10 @@
 
 class Simple : public godot::Reference {
 	GODOT_CLASS(Simple, godot::Reference)
-	
-	godot::String data;
-public:
 
+	godot::String data;
+
+public:
 	static void _register_methods();
 
 	void _init();

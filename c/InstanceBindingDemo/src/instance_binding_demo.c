@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 const godot_gdnative_core_api_struct *api = NULL;
 const godot_gdnative_ext_nativescript_api_struct *nativescript_api = NULL;
 const godot_gdnative_ext_nativescript_1_1_api_struct *nativescript_1_1_api = NULL;
@@ -24,8 +23,7 @@ typedef struct wrapper_object {
 	char *message;
 } wrapper_object;
 
-void *create_wrapper_object(void *data, godot_object *object)
-{
+void *create_wrapper_object(void *data, godot_object *object) {
 	printf("we are now creating a wrapper object...\n");
 	fflush(stdout);
 
@@ -38,17 +36,14 @@ void *create_wrapper_object(void *data, godot_object *object)
 	return wrapper;
 }
 
-void destroy_wrapper_object(void *data, void *wrapper)
-{
+void destroy_wrapper_object(void *data, void *wrapper) {
 	api->godot_free(wrapper);
 
 	printf("the wrapper object got destroyed.\n");
 	fflush(stdout);
 }
 
-
-void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *options)
-{
+void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *options) {
 	api = options->api_struct;
 
 	// now find our extensions
@@ -61,26 +56,22 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *options)
 					break;
 
 				if (nativescript_api->next->version.major == 1 && nativescript_api->next->version.minor == 1) {
-					nativescript_1_1_api = (const godot_gdnative_ext_nativescript_1_1_api_struct *) nativescript_api->next;
+					nativescript_1_1_api = (const godot_gdnative_ext_nativescript_1_1_api_struct *)nativescript_api->next;
 				}
 			}; break;
-			default: break;
+			default:
+				break;
 		};
 	};
 }
 
-void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *options)
-{
+void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *options) {
 	api = NULL;
 	nativescript_api = NULL;
 	nativescript_1_1_api = NULL;
 }
 
-
-
-void GDN_EXPORT godot_nativescript_init(void *handle)
-{
-
+void GDN_EXPORT godot_nativescript_init(void *handle) {
 	printf("nativescript_init\n");
 
 	fflush(stdout);
@@ -103,17 +94,14 @@ void GDN_EXPORT godot_nativescript_init(void *handle)
 		destructor.destroy_func = &ibd_destructor;
 
 		nativescript_api->godot_nativescript_register_class(handle, "InstanceBindingDemo", "Reference", constructor, destructor);
-
 	}
 }
 
-void GDN_EXPORT godot_nativescript_terminate(void *handle)
-{
+void GDN_EXPORT godot_nativescript_terminate(void *handle) {
 	nativescript_1_1_api->godot_nativescript_unregister_instance_binding_data_functions(language_binding_index);
 }
 
-GDCALLINGCONV void *ibd_constructor(godot_object *instance, void *method_data)
-{
+GDCALLINGCONV void *ibd_constructor(godot_object *instance, void *method_data) {
 	wrapper_object *wrapper = nativescript_1_1_api->godot_nativescript_get_instance_binding_data(language_binding_index, instance);
 
 	printf("message is: %s\n", wrapper->message);
@@ -122,6 +110,5 @@ GDCALLINGCONV void *ibd_constructor(godot_object *instance, void *method_data)
 	return NULL;
 }
 
-GDCALLINGCONV void ibd_destructor(godot_object *instance, void *method_data, void *user_data)
-{
+GDCALLINGCONV void ibd_destructor(godot_object *instance, void *method_data, void *user_data) {
 }

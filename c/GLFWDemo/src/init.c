@@ -10,8 +10,7 @@ struct glfw {
 const godot_gdnative_core_api_struct *api = NULL;
 const godot_gdnative_ext_nativescript_api_struct *nativescript_api = NULL;
 
-void window_close_callback(GLFWwindow* window)
-{
+void window_close_callback(GLFWwindow *window) {
 	godot_object *instance = glfwGetWindowUserPointer(window);
 	// emit a signal
 
@@ -61,25 +60,22 @@ void *glfw_constructor(godot_object *instance, void *method_data);
 void glfw_destructor(godot_object *instance, void *method_data, struct glfw *user_data);
 
 godot_variant glfw_create_window(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args);
+		struct glfw *user_data,
+		int num_args, godot_variant **args);
 
 godot_variant glfw_close(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args);
+		struct glfw *user_data,
+		int num_args, godot_variant **args);
 
 godot_variant glfw_poll_events(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args);
-
+		struct glfw *user_data,
+		int num_args, godot_variant **args);
 
 godot_variant glfw_is_closed(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args);
+		struct glfw *user_data,
+		int num_args, godot_variant **args);
 
-
-void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options)
-{
+void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options) {
 	api = p_options->api_struct;
 
 	// now find our extensions
@@ -88,13 +84,13 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options)
 			case GDNATIVE_EXT_NATIVESCRIPT: {
 				nativescript_api = (godot_gdnative_ext_nativescript_api_struct *)api->extensions[i];
 			}; break;
-			default: break;
+			default:
+				break;
 		};
 	};
 }
 
-void GDN_EXPORT godot_nativescript_init(void *p_handle)
-{
+void GDN_EXPORT godot_nativescript_init(void *p_handle) {
 	if (!glfwInit()) {
 		fprintf(stderr, "can't initialize GLFW\n");
 		return;
@@ -127,7 +123,6 @@ void GDN_EXPORT godot_nativescript_init(void *p_handle)
 
 		nativescript_api->godot_nativescript_register_method(p_handle, "GLFW", "close", attributes, close_window);
 	}
-
 
 	{
 		godot_instance_method poll_events = {};
@@ -162,15 +157,13 @@ void GDN_EXPORT godot_nativescript_init(void *p_handle)
 	}
 }
 
-void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *options)
-{
+void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *options) {
 	glfwTerminate();
 }
 
 godot_variant glfw_create_window(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args)
-{
+		struct glfw *user_data,
+		int num_args, godot_variant **args) {
 	godot_variant ret;
 	api->godot_variant_new_nil(&ret);
 
@@ -197,12 +190,9 @@ godot_variant glfw_create_window(godot_object *instance, void *method_data,
 	return ret;
 }
 
-
-
 godot_variant glfw_close(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args)
-{
+		struct glfw *user_data,
+		int num_args, godot_variant **args) {
 	godot_variant ret;
 	api->godot_variant_new_nil(&ret);
 
@@ -214,22 +204,18 @@ godot_variant glfw_close(godot_object *instance, void *method_data,
 	return ret;
 }
 
-
 godot_variant glfw_is_closed(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args)
-{
+		struct glfw *user_data,
+		int num_args, godot_variant **args) {
 	godot_variant ret;
 	api->godot_variant_new_bool(&ret, user_data->window == NULL);
 
 	return ret;
 }
 
-
 godot_variant glfw_poll_events(godot_object *instance, void *method_data,
-                                 struct glfw *user_data,
-                                 int num_args, godot_variant **args)
-{
+		struct glfw *user_data,
+		int num_args, godot_variant **args) {
 	godot_variant ret;
 	api->godot_variant_new_nil(&ret);
 
@@ -238,12 +224,7 @@ godot_variant glfw_poll_events(godot_object *instance, void *method_data,
 	return ret;
 }
 
-
-
-
-
-void *glfw_constructor(godot_object *instance, void *method_data)
-{
+void *glfw_constructor(godot_object *instance, void *method_data) {
 	printf("GLFW._init()\n");
 
 	struct glfw *user_data = api->godot_alloc(sizeof(struct glfw));
@@ -252,8 +233,7 @@ void *glfw_constructor(godot_object *instance, void *method_data)
 	return user_data;
 }
 
-void glfw_destructor(godot_object *instance, void *method_data, struct glfw *user_data)
-{
+void glfw_destructor(godot_object *instance, void *method_data, struct glfw *user_data) {
 	// destroy window
 
 	if (user_data->window) {

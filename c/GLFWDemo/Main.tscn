@@ -9,12 +9,12 @@ onready var window = preload(\"res://GLFW.gdns\").new()
 
 func _ready():
 
-    # create a 200x200 px window 
+    # create a 200x200 px window
     window.create(200, 200, \"Hello from Godot!\")
-    
+
     # connect the \"closed\" signal
     window.connect(\"closed\", self, \"on_window_close\")
-    
+
 func on_window_close():
     # the window emits a signal when the users requests
     # to close it. So let's close it :D
