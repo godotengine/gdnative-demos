@@ -7,9 +7,9 @@ reloadable=true
 
 [entry]
 
-X11.64="res://bin/x11/libsimple.so"
-Windows.64="res://bin/win64/libsimple.dll"
-OSX.64="res://bin/osx/libsimple.dylib"
+X11.64="res://gdnative/x11/libsimple.so"
+Windows.64="res://gdnative/win64/libsimple.dll"
+OSX.64="res://gdnative/osx/libsimple.dylib"
 
 [dependencies]
 
