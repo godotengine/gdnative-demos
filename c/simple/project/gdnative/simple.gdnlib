@@ -7,12 +7,12 @@ reloadable=true
 
 [entry]
 
-X11.64="res://gdnative/x11/libsimple.so"
-Windows.64="res://gdnative/win64/libsimple.dll"
-OSX.64="res://gdnative/osx/libsimple.dylib"
+OSX.64="res://gdnative/macos/libsimple.dylib"
+Windows.64="res://gdnative/windows/libsimple.dll"
+X11.64="res://gdnative/linuxbsd/libsimple.so"
 
 [dependencies]
 
-X11.64=[  ]
-Windows=[  ]
 OSX.64=[  ]
+Windows.64=[  ]
+X11.64=[  ]
