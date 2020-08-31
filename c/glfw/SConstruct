@@ -17,7 +17,7 @@ opts.Add(EnumVariable("platform", "Compilation platform", "", platform_array))
 opts.Add(EnumVariable("p", "Alias for 'platform'", "", platform_array))
 opts.Add(BoolVariable("use_llvm", "Use the LLVM / Clang compiler", "no"))
 opts.Add(PathVariable("target_path", "The path where the lib is installed.", "project/gdnative/"))
-opts.Add(PathVariable("target_name", "The library name.", "libinstance_binding", PathVariable.PathAccept))
+opts.Add(PathVariable("target_name", "The library name.", "libglfw", PathVariable.PathAccept))
 
 # Only support 64-bit systems.
 bits = 64
