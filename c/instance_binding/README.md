@@ -1,49 +1,53 @@
-# Simple example using C
-
-This is a small example using C to create a GDNative script that just showcases some very simple bare bones calls
-
-## Compiling
+# Instance binding demo using C
 
 Dependencies:
- * You need to have the [Godot headers](https://github.com/GodotNativeTools/godot_headers) saved somewhere on your system
- * clang or any decent C compiler that's C11 or C99 compatible
+ * You need [Godot headers](https://github.com/godotengine/godot_headers),
+   this is now a submodule of this repo.
+ * `clang`, `gcc`, or any decent C compiler that's C11 or C99 compatible.
 
-### Scons (cross platform)
-You can use scons to compile the library if you have it installed:
+## Compile with SCons (cross platform)
+You can use SCons to compile the library if you have it installed:
 
-    scons platform=PLATFORM
+```
+scons platform=PLATFORM
+```
 
-Where platform is: x11, osx or windows
-Optionally you can specify:
+Where platform is: windows, linuxbsd, or macos
 
-    headers=/PATH/TO/GODOT/HEADERS
+
+## Manually compiling
 
 ### Linux
 To compile the library on Linux, do
 
-    cd src
-    clang -std=c11 -fPIC -c -I/PATH/TO/GODOT/HEADERS simple.c -o simple.os
-    clang -shared simple.os -o ../bin/libsimple.so
+```
+cd src
+clang -std=c11 -fPIC -c -I../godot_headers instance_binding.c -o instance_binding.os
+clang -shared instance_binding.os -o ../project/gdnative/linuxbsd/libinstance_binding.so
+```
 
-This creates the file `libsimple.so` in your `src` directory.
-For windows you need to find out what compiler flags need to be used, I don't know which ones. (If you do, feel free to fork and update this project and README)
+This creates the file `libinstance_binding.so` in the `project/gdnative/linuxbsd` directory.
 
-### Mac OS X
-On Mac OS X:
 
-    cd src
-    clang -std=c11 -fPIC -c -I/PATH/TO/GODOT/HEADERS simple.c -o simple.os -arch i386 -arch x86_64
-    clang -dynamiclib simple.os -o ../bin/libsimple.dylib -arch i386 -arch x86_64
+### macOS
+On macOS:
 
-This creates the file 'libsimple.dylib' as a universal binary (or alternatively remove one of the -arch options from both commands if you want to just compile for one architecture).
+```
+cd src
+clang -std=c11 -fPIC -c -I../godot_headers instance_binding.c -o instance_binding.os -arch x86_64
+clang -dynamiclib instance_binding.os -o ../project/gdnative/macos/libinstance_binding.dylib -arch x86_64
+```
+
+This creates the file `libinstance_binding.dylib` in the `project/gdnative/macos` directory.
+
 
 ### Windows
-To be added
+On Windows:
 
-## Usage
+```
+cd src
+cl /Foinstance_binding.obj /c instance_binding.c /nologo -EHsc -DNDEBUG /MD /I. /I../godot_headers
+link /nologo /dll /out:..\project\gdnative\windows\libinstance_binding.dll /implib:..\project\gdnative\windows\libinstance_binding.lib instance_binding.obj
+```
 
-Create a new object using `load("res://SIMPLE.gdns").new()`
-
-This object has following methods you can use:
- * `get_data()`
-
+This creates the file `libinstance_binding.dll` in the `project/gdnative/windows` directory.
