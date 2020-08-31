@@ -17,7 +17,7 @@ opts.Add(EnumVariable("platform", "Compilation platform", "", platform_array))
 opts.Add(EnumVariable("p", "Alias for 'platform'", "", platform_array))
 opts.Add(BoolVariable("use_llvm", "Use the LLVM / Clang compiler", "no"))
 opts.Add(PathVariable("target_path", "The path where the lib is installed.", "project/gdnative/"))
-opts.Add(PathVariable("target_name", "The library name.", "libglfw", PathVariable.PathAccept))
+opts.Add(PathVariable("target_name", "The library name.", "libglfw_godot", PathVariable.PathAccept))
 
 # Only support 64-bit systems.
 bits = 64
@@ -41,7 +41,7 @@ if env["platform"] == "":
 env["target_path"] += env["platform"] + "/"
 
 # Process other arguments.
-if env["use_llvm"]:
+if True or env["use_llvm"]:  # TODO: GCC doesn't work for some reason.
     env["CC"] = "clang"
     env["CXX"] = "clang++"
 
@@ -74,6 +74,9 @@ elif env["platform"] == "windows":
 
 # Make sure our library includes the Godot headers.
 env.Append(CPPPATH=[".", godot_headers_path])
+
+# Include GLFW.
+env.Append(LINKFLAGS=["-lglfw"])
 
 # Make sure our library looks in the target path for any other
 # libraries it may need. The path needs to be project-relative.

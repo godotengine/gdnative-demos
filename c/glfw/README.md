@@ -1,7 +1,7 @@
 # GLFW example using C
 
 This is a small example using C to create a GDNative script that
-exposes a smaaaaall part of the GLFW API.
+exposes a very small part of the GLFW API.
 
 Dependencies:
  * You need [Godot headers](https://github.com/godotengine/godot_headers),
@@ -27,11 +27,7 @@ To compile the library on Linux, do
 ```
 cd src
 clang -std=c11 -fPIC -c -I../godot_headers init.c -o init.os
-clang -shared -lglfw init.os -o ../project/gdnative/linuxbsd/libglfw.so
-
-# Or use GCC.
-gcc -std=c11 -fPIC -c -I../godot_headers init.c -o init.os
-gcc -shared init.os -o ../project/gdnative/linuxbsd/libglfw.so -lglfw
+clang -shared -lglfw init.os -o ../project/gdnative/linuxbsd/libglfw_godot.so
 ```
 
 This creates the file `libsimple.so` in the `project/gdnative/linuxbsd` directory.

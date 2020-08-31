@@ -1,10 +1,9 @@
 [gd_resource type="NativeScript" load_steps=2 format=2]
 
-[ext_resource path="res://GLFW.gdnlib" type="GDNativeLibrary" id=1]
+[ext_resource path="res://gdnative/glfw.gdnlib" type="GDNativeLibrary" id=1]
 
 [resource]
 
 class_name = "GLFW"
 library = ExtResource( 1 )
 _sections_unfolded = [ "Resource" ]
-

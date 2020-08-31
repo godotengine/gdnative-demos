@@ -15,7 +15,8 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Simple GDNative Demo"
+config/name="Simple GDNative C Demo"
+config/description="Simple GDNative C Demo"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 

@@ -1,42 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[sub_resource type="GDScript" id=1]
+[ext_resource path="res://main.gd" type="Script" id=1]
 
-script/source = "extends Node2D
-
-# load the GLFW library
-onready var window = preload(\"res://GLFW.gdns\").new()
-
-func _ready():
-
-    # create a 200x200 px window
-    window.create(200, 200, \"Hello from Godot!\")
-
-    # connect the \"closed\" signal
-    window.connect(\"closed\", self, \"on_window_close\")
-
-func on_window_close():
-    # the window emits a signal when the users requests
-    # to close it. So let's close it :D
-    window.close()
-
-func _process(delta):
-    # If the window is still open, poll for events
-    # on every frame
-    if not window.is_closed():
-        window.poll_events()
-
-func _notification(what):
-    match what:
-        NOTIFICATION_PREDELETE:
-            # if the game closes, the window should close
-            # as well. window.close() works when
-            # window already is closed
-            window.close()
-"
-
-[node name="Node2D" type="Node2D" index="0"]
-
-script = SubResource( 1 )
-
-
+[node name="Main" type="Node"]
+script = ExtResource( 1 )
