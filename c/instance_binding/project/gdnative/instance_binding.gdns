@@ -1,11 +1,10 @@
 [gd_resource type="NativeScript" load_steps=2 format=2]
 
-[ext_resource path="res://bin/instance_binding_demo.gdnlib" type="GDNativeLibrary" id=1]
+[ext_resource path="res://gdnative/instance_binding.gdnlib" type="GDNativeLibrary" id=1]
 
 [resource]
 
-resource_name = "InstanceBindingDemo"
-class_name = "InstanceBindingDemo"
+resource_name = "InstanceBinding"
+class_name = "InstanceBinding"
 library = ExtResource( 1 )
 _sections_unfolded = [ "Resource" ]
-

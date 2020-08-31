@@ -7,7 +7,9 @@ reloadable=true
 
 [entry]
 
-X11.64="res://bin/libinstance_binding_demo.so"
+X11.64="res://gdnative/linuxbsd/libinstance_binding.so"
+Windows.64="res://gdnative/windows/libinstance_binding.dll"
+OSX.64="res://gdnative/macos/libinstance_binding.dylib"
 
 [dependencies]
 

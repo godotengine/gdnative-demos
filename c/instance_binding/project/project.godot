@@ -6,16 +6,19 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=3
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+
+}
 
 [application]
 
-config/name="InstanceBindingDemo"
+config/name="Instance Binding GDNative C Demo"
+config/description="Instance Binding GDNative Demo"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
-name="InstanceBindingDemo"
-main_scene="res://main.tscn"
-icon="res://icon.png"
 
 [gdnative]
 
@@ -27,4 +30,4 @@ multithread/thread_rid_pool_prealloc=60
 
 [rendering]
 
-viewport/default_environment="res://default_env.tres"
+quality/driver/driver_name="GLES2"

@@ -18,9 +18,7 @@ _global_script_class_icons={
 config/name="GLFW GDNative C Demo"
 config/description="GLFW GDNative C Demo"
 run/main_scene="res://main.tscn"
-name="GLFWDemo"
-main_scene="res://Main.tscn"
-icon="res://icon.png"
+config/icon="res://icon.png"
 
 [memory]
 

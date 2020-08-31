@@ -1,10 +1,8 @@
 extends Control
 
-# load the SIMPLE library
-const InstanceBindingDemo = preload("res://bin/instance_binding_demo.gdns")
-onready var data = InstanceBindingDemo.new()
+const InstanceBinding = preload("res://gdnative/instance_binding.gdns")
+onready var data = InstanceBinding.new()
 
 func _on_Button_pressed():
 	# do the test here
-
 	pass
