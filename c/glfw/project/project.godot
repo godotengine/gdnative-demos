@@ -6,15 +6,24 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=3
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+
+}
 
 [application]
 
-run/main_scene="res://Main.tscn"
-name="GLFWDemo"
-main_scene="res://Main.tscn"
-icon="res://icon.png"
+config/name="GLFW GDNative C Demo"
+config/description="GLFW GDNative C Demo"
+run/main_scene="res://main.tscn"
+config/icon="res://icon.png"
 
 [memory]
 
 multithread/thread_rid_pool_prealloc=60
+
+[rendering]
+
+quality/driver/driver_name="GLES2"

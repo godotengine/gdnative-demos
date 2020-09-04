@@ -93,7 +93,7 @@ void GDN_EXPORT godot_nativescript_init(void *handle) {
 		godot_instance_destroy_func destructor = {};
 		destructor.destroy_func = &ibd_destructor;
 
-		nativescript_api->godot_nativescript_register_class(handle, "InstanceBindingDemo", "Reference", constructor, destructor);
+		nativescript_api->godot_nativescript_register_class(handle, "InstanceBinding", "Reference", constructor, destructor);
 	}
 }
 

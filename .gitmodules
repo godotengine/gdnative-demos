@@ -1,3 +1,9 @@
 [submodule "c/simple/godot_headers"]
 	path = c/simple/godot_headers
 	url = https://github.com/godotengine/godot_headers
+[submodule "c/glfw/godot_headers"]
+	path = c/glfw/godot_headers
+	url = https://github.com/godotengine/godot_headers
+[submodule "c/instance_binding/godot_headers"]
+	path = c/instance_binding/godot_headers
+	url = https://github.com/godotengine/godot_headers
