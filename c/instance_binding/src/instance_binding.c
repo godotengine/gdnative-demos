@@ -23,7 +23,7 @@ typedef struct wrapper_object {
 	char *message;
 } wrapper_object;
 
-void *create_wrapper_object(void *data, godot_object *object) {
+void *create_wrapper_object(void *data, const void *global_type_tag, godot_object *object) {
 	printf("we are now creating a wrapper object...\n");
 	fflush(stdout);
 
@@ -47,7 +47,7 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *options) {
 	api = options->api_struct;
 
 	// now find our extensions
-	for (int i = 0; i < api->num_extensions; i++) {
+	for (unsigned int i = 0; i < api->num_extensions; i++) {
 		switch (api->extensions[i]->type) {
 			case GDNATIVE_EXT_NATIVESCRIPT: {
 				nativescript_api = (godot_gdnative_ext_nativescript_api_struct *)api->extensions[i];
@@ -78,20 +78,23 @@ void GDN_EXPORT godot_nativescript_init(void *handle) {
 
 	// register instance binding functions
 	{
-		godot_instance_binding_functions bind = {};
-		bind.alloc_instance_binding_data = &create_wrapper_object;
-		bind.free_instance_binding_data = &destroy_wrapper_object;
+		godot_instance_binding_functions bind = {
+			.alloc_instance_binding_data = &create_wrapper_object,
+			.free_instance_binding_data = &destroy_wrapper_object
+		};
 
 		language_binding_index = nativescript_1_1_api->godot_nativescript_register_instance_binding_data_functions(bind);
 	}
 
 	// register class
 	{
-		godot_instance_create_func constructor = {};
-		constructor.create_func = &ibd_constructor;
+		godot_instance_create_func constructor = {
+			.create_func = &ibd_constructor
+		};
 
-		godot_instance_destroy_func destructor = {};
-		destructor.destroy_func = &ibd_destructor;
+		godot_instance_destroy_func destructor = {
+			.destroy_func = &ibd_destructor
+		};
 
 		nativescript_api->godot_nativescript_register_class(handle, "InstanceBinding", "Reference", constructor, destructor);
 	}
