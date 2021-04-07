@@ -1,0 +1,4 @@
+[gd_resource type="NativeScript" format=2]
+
+[resource]
+class_name = "plugin"

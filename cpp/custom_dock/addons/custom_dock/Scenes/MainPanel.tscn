@@ -1,0 +1,17 @@
+[gd_scene format=2]
+
+[node name="MainPanel" type="Panel"]
+margin_right = 220.0
+margin_bottom = 410.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 3
+
+[node name="Name" type="Label" parent="VBoxContainer"]
+margin_right = 220.0
+margin_bottom = 14.0
+text = "Material Creator"
+align = 1
+valign = 2
