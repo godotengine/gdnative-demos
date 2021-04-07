@@ -2,6 +2,7 @@
 #include <Panel.hpp>
 #include <LineEdit.hpp>
 #include <String.hpp>
+#include <Label.hpp>
 
 #include "Dock.hpp"
 using namespace godot;
@@ -29,8 +30,14 @@ void Dock::_on_PrintButton_pressed()
     Godot::print(message);
 }
 
+void Dock::_on_HSlider_value_changed(float value)
+{
+    ((Label *)get_node(NodePath("VBoxContainer/Tabs/Tab/PanelContainer/Label")))->set_text("Slider: "+ String::num_int64(value));
+}
+
 void Dock::_register_methods() {
 	register_method((char *)"_init", &Dock::_init);
 	register_method((char *)"_on_HelloButton_pressed", &Dock::_on_HelloButton_pressed);
 	register_method((char *)"_on_PrintButton_pressed", &Dock::_on_PrintButton_pressed);
+	register_method((char *)"_on_HSlider_value_changed", &Dock::_on_HSlider_value_changed);
 }

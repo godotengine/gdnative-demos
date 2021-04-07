@@ -61,7 +61,7 @@ margin_bottom = 246.0
 rect_min_size = Vector2( 0, 128 )
 text = "Some text"
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label1" type="Label" parent="VBoxContainer"]
 margin_top = 250.0
 margin_right = 198.0
 margin_bottom = 264.0
@@ -83,5 +83,45 @@ margin_top = 310.0
 margin_right = 198.0
 margin_bottom = 326.0
 
+[node name="Color" type="ColorRect" parent="VBoxContainer"]
+margin_top = 330.0
+margin_right = 198.0
+margin_bottom = 364.0
+rect_min_size = Vector2( 0, 34 )
+
+[node name="Tabs" type="TabContainer" parent="VBoxContainer"]
+margin_top = 368.0
+margin_right = 198.0
+margin_bottom = 404.0
+
+[node name="Tab" type="Control" parent="VBoxContainer/Tabs"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Tabs/Tab"]
+anchor_right = 0.9
+margin_right = 14.0
+margin_bottom = 14.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VBoxContainer/Tabs/Tab/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 178.0
+margin_bottom = 21.0
+text = "Slider: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="VBoxContainer/HelloButton" to="." method="_on_HelloButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/PrintButton" to="." method="_on_PrintButton_pressed"]
+[connection signal="value_changed" from="VBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]

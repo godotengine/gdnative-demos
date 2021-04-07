@@ -11,8 +11,8 @@ env = Environment()
 if platform == "windows":
     env = Environment(ENV=os.environ)
 
-godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "E:/Zapya/Folder/godot-cpp/godot_headers"))
-godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "E:/Zapya/Folder/godot-cpp"))
+godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "godot-cpp/godot_headers"))
+godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "godot-cpp"))
 
 # default to debug build, must be same setting as used for cpp_bindings
 target = ARGUMENTS.get("target", "debug")

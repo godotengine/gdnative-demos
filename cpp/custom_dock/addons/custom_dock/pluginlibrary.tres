@@ -1,5 +1,6 @@
 [gd_resource type="GDNativeLibrary" format=2]
 
 [resource]
+reloadable = false
 entry/Windows.64 = "res://addons/custom_dock/bin/libconstructor.dll"
 dependency/Windows.64 = [  ]
