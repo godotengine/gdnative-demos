@@ -2,9 +2,10 @@
 
 [ext_resource path="res://addons/custom_dock/dock.gdns" type="Script" id=1]
 
-[node name="MainPanel" type="Panel"]
-margin_right = 286.0
-margin_bottom = 410.0
+[node name="MainPanel" type="PanelContainer"]
+margin_left = 1.0
+margin_right = 213.0
+margin_bottom = 599.0
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
@@ -12,15 +13,16 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_vertical = 3
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 205.0
+margin_bottom = 592.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Name" type="Label" parent="VBoxContainer"]
-margin_right = 286.0
+margin_right = 198.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 0, 24 )
 text = "Custom Dock"
@@ -29,7 +31,7 @@ valign = 2
 
 [node name="HelloButton" type="Button" parent="VBoxContainer"]
 margin_top = 28.0
-margin_right = 286.0
+margin_right = 198.0
 margin_bottom = 52.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
@@ -37,17 +39,49 @@ text = "Print Hello World!"
 
 [node name="LineEdit" type="LineEdit" parent="VBoxContainer"]
 margin_top = 56.0
-margin_right = 286.0
+margin_right = 198.0
 margin_bottom = 86.0
 rect_min_size = Vector2( 0, 30 )
+size_flags_horizontal = 3
 text = "print custom message"
+caret_blink = true
+caret_blink_speed = 0.5
 
 [node name="PrintButton" type="Button" parent="VBoxContainer"]
 margin_top = 90.0
-margin_right = 286.0
+margin_right = 198.0
 margin_bottom = 114.0
 rect_min_size = Vector2( 0, 24 )
-text = "Print above message in console"
+text = "Print above message"
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+margin_top = 118.0
+margin_right = 198.0
+margin_bottom = 246.0
+rect_min_size = Vector2( 0, 128 )
+text = "Some text"
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_top = 250.0
+margin_right = 198.0
+margin_bottom = 264.0
+text = "Color Picker"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="VBoxContainer"]
+margin_top = 268.0
+margin_right = 198.0
+margin_bottom = 288.0
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+margin_top = 292.0
+margin_right = 198.0
+margin_bottom = 306.0
+text = "Slider"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer"]
+margin_top = 310.0
+margin_right = 198.0
+margin_bottom = 326.0
 
 [connection signal="pressed" from="VBoxContainer/HelloButton" to="." method="_on_HelloButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/PrintButton" to="." method="_on_PrintButton_pressed"]
