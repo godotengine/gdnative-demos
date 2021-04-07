@@ -4,7 +4,7 @@ import os, subprocess
 opts = Variables([], ARGUMENTS)
 
 # Define the relative path to the Godot headers.
-godot_headers_path = "godot_headers/"
+godot_headers_path = "godot-headers/"
 
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
@@ -64,7 +64,8 @@ elif env["platform"] == "windows":
     # This makes sure to keep the session environment variables
     # on Windows, so that you can run scons in a VS 2017 prompt
     # and it will find all the required tools.
-    env.Append(ENV=os.environ)
+    env = Environment(ENV=os.environ)
+    opts.Update(env)
 
     env.Append(CCFLAGS=["-DWIN32", "-D_WIN32", "-D_WINDOWS", "-W3", "-GR", "-D_CRT_SECURE_NO_WARNINGS"])
     if env["target"] in ("debug", "d"):
