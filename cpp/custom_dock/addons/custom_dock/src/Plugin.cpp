@@ -10,6 +10,7 @@ Plugin::Plugin()
 
 Plugin::~Plugin()
 {
+    this->plugin_instance->free();
 }
 
 void Plugin::_init()
@@ -30,7 +31,6 @@ void Plugin::_enter_tree()
 void Plugin::_exit_tree()
 {
     EditorPlugin::remove_control_from_docks(this->plugin_instance);
-    this->plugin_instance->free();
 }
 
 void Plugin::_register_methods() {

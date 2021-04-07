@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/Dock.obj-d9f9e6e5114d4c274f00fbb060c118a8.mesh"
+
+[deps]
+
+files=[ "res://.import/Dock.obj-d9f9e6e5114d4c274f00fbb060c118a8.mesh" ]
+
+source_file="res://addons/custom_dock/src/Dock.obj"
+dest_files=[ "res://.import/Dock.obj-d9f9e6e5114d4c274f00fbb060c118a8.mesh", "res://.import/Dock.obj-d9f9e6e5114d4c274f00fbb060c118a8.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

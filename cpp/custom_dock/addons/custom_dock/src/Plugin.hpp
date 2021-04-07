@@ -6,7 +6,6 @@
 #include <Reference.hpp>
 #include <PackedScene.hpp>
 #include <Control.hpp>
-#include <EditorInterface.hpp>
 
 using namespace godot;
 
@@ -27,7 +26,6 @@ public:
 private:
     Ref<PackedScene> plugin_scene;
     Control *plugin_instance;
-    EditorInterface *plugin_interface;
 };
 
 #endif
