@@ -1,4 +1,7 @@
-[gd_resource type="NativeScript" format=2]
+[gd_resource type="NativeScript" load_steps=2 format=2]
+
+[ext_resource path="res://addons/custom_dock/pluginlibrary.tres" type="GDNativeLibrary" id=1]
 
 [resource]
-class_name = "plugin"
+class_name = "Plugin"
+library = ExtResource( 1 )
