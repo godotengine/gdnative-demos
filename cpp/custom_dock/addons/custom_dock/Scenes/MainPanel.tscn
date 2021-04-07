@@ -102,26 +102,28 @@ margin_top = 32.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/Tabs/Tab"]
+[node name="PanelContainer" type="VBoxContainer" parent="VBoxContainer/Tabs/Tab"]
 anchor_right = 0.9
 margin_right = 14.0
-margin_bottom = 14.0
+margin_bottom = 55.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="VBoxContainer/Tabs/Tab/PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 178.0
-margin_bottom = 21.0
+margin_right = 185.0
+margin_bottom = 14.0
 text = "Slider: 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label2" type="Label" parent="VBoxContainer/Tabs/Tab/PanelContainer"]
+margin_top = 18.0
+margin_right = 185.0
+margin_bottom = 32.0
+text = "Color: 0, 0, 0"
+
 [connection signal="pressed" from="VBoxContainer/HelloButton" to="." method="_on_HelloButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/PrintButton" to="." method="_on_PrintButton_pressed"]
+[connection signal="color_changed" from="VBoxContainer/ColorPickerButton" to="." method="_on_ColorPickerButton_color_changed"]
 [connection signal="value_changed" from="VBoxContainer/HSlider" to="." method="_on_HSlider_value_changed"]
