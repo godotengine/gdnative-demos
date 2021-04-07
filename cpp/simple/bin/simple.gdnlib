@@ -1,10 +1,12 @@
 [entry]
 
 X11.64="res://bin/libsimple.so"
+Windows.64="res://bin/libsimple.dll"
 
 [dependencies]
 
 X11.64=[  ]
+Windows.64=[  ]
 
 [general]
 

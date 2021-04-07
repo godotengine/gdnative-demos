@@ -5,7 +5,7 @@
 You need to clone the GDNative C++ bindings in the root of this project:
 
 ```
-git clone --recursive https://github.com/GodotNativeTools/godot-cpp
+git clone --recursive https://github.com/godotengine/godot-cpp
 ```
 
 
@@ -38,6 +38,7 @@ $ cd ..
 
 > If you want to use an alternative api.json file add `use_custom_api_file=yes custom_api_file=../api.json`, be sure to specify the correct location of where you placed your file.
 
+> Example: `scons platform=windows generate_bindings=yes target=release use_custom_api_file=yes custom_api_file=../api.json -j12`
 
 ### Compile the demos
 

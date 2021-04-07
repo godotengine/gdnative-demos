@@ -2,6 +2,7 @@
 
 singleton=false
 load_once=false
+reloable=true
 symbol_prefix="godot_"
 
 [entry]

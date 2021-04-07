@@ -1,11 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
+[ext_resource path="res://gdnative/printer.gdns" type="Script" id=2]
 
 [node name="main" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Button" type="Button" parent="."]
 margin_left = 384.0
@@ -20,4 +24,15 @@ margin_top = 311.0
 margin_right = 629.0
 margin_bottom = 368.0
 size_flags_vertical = 0
+
+[node name="Printer" type="Button" parent="."]
+margin_right = 182.0
+margin_bottom = 90.0
+text = "Print"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Printer" to="Printer" method="say"]

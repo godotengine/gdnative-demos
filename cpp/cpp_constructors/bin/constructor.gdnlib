@@ -2,11 +2,13 @@
 
 X11.64="res://bin/libconstructor.so"
 X11.32="res://bin/libconstructor.so"
+Windows.64="res://bin/libconstructor.dll"
 
 [dependencies]
 
 X11.64=[  ]
 X11.32=[  ]
+Windows.64=[  ]
 
 [general]
 

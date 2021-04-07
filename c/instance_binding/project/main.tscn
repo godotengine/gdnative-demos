@@ -31,4 +31,5 @@ margin_right = 200.0
 margin_bottom = 368.0
 size_flags_vertical = 0
 align = 1
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

@@ -18,6 +18,10 @@ GDCALLINGCONV void *simple_constructor(godot_object *p_instance, void *p_method_
 GDCALLINGCONV void simple_destructor(godot_object *p_instance, void *p_method_data, void *p_user_data);
 godot_variant simple_get_data(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args);
 
+GDCALLINGCONV void *printer_constructor(godot_object *p_instance, void *p_method_data);
+GDCALLINGCONV void printer_destructor(godot_object *p_instance, void *p_method_data, void *p_user_data);
+godot_variant printer_say(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args);
+
 // `gdnative_init` is a function that initializes our dynamic library.
 // Godot will give it a pointer to a structure that contains various bits of
 // information we may find useful among which the pointers to our API structures.
@@ -25,7 +29,7 @@ void GDN_EXPORT godot_gdnative_init(godot_gdnative_init_options *p_options) {
 	api = p_options->api_struct;
 
 	// Find NativeScript extensions.
-	for (int i = 0; i < api->num_extensions; i++) {
+	for (unsigned int i = 0; i < api->num_extensions; i++) {
 		switch (api->extensions[i]->type) {
 			case GDNATIVE_EXT_NATIVESCRIPT: {
 				nativescript_api = (godot_gdnative_ext_nativescript_api_struct *)api->extensions[i];
@@ -43,14 +47,15 @@ void GDN_EXPORT godot_gdnative_terminate(godot_gdnative_terminate_options *p_opt
 	nativescript_api = NULL;
 }
 
+
 // `nativescript_init` is the most important function. Godot calls
 // this function as part of loading a GDNative library and communicates
 // back to the engine what objects we make available.
 void GDN_EXPORT godot_nativescript_init(void *p_handle) {
-	godot_instance_create_func create = { NULL, NULL, NULL };
+	godot_instance_create_func create = {0};
 	create.create_func = &simple_constructor;
 
-	godot_instance_destroy_func destroy = { NULL, NULL, NULL };
+	godot_instance_destroy_func destroy = {0};
 	destroy.destroy_func = &simple_destructor;
 
 	// We first tell the engine which classes are implemented by calling this.
@@ -62,7 +67,7 @@ void GDN_EXPORT godot_nativescript_init(void *p_handle) {
 	//   for our constructor and destructor, respectively.
 	nativescript_api->godot_nativescript_register_class(p_handle, "SIMPLE", "Reference", create, destroy);
 
-	godot_instance_method get_data = { NULL, NULL, NULL };
+	godot_instance_method get_data = {0};
 	get_data.method = &simple_get_data;
 
 	godot_method_attributes attributes = { GODOT_METHOD_RPC_MODE_DISABLED };
@@ -77,6 +82,20 @@ void GDN_EXPORT godot_nativescript_init(void *p_handle) {
 	// * The fifth and final parameter is a description of which function
 	//   to call when the method gets called.
 	nativescript_api->godot_nativescript_register_method(p_handle, "SIMPLE", "get_data", attributes, get_data);
+
+	// register Printer
+	godot_instance_create_func printer_create = {0};
+	printer_create.create_func = &printer_constructor;
+
+	godot_instance_destroy_func printer_destroy = {0};
+	printer_destroy.destroy_func = &printer_destructor;
+
+	nativescript_api->godot_nativescript_register_class(p_handle, "Printer", "Button", printer_create, printer_destroy);
+	godot_instance_method say_data = {0};
+	say_data.method = &printer_say;
+
+	godot_method_attributes printer_attributes = { GODOT_METHOD_RPC_MODE_DISABLED };
+	nativescript_api->godot_nativescript_register_method(p_handle, "Printer", "say", printer_attributes, say_data);
 }
 
 // In our constructor, allocate memory for our structure and fill
@@ -111,5 +130,31 @@ godot_variant simple_get_data(godot_object *p_instance, void *p_method_data, voi
 	api->godot_variant_new_string(&ret, &data);
 	api->godot_string_destroy(&data);
 
+	return ret;
+}
+
+GDCALLINGCONV void *printer_constructor(godot_object *p_instance, void *p_method_data) {
+	return NULL;
+}
+
+GDCALLINGCONV void printer_destructor(godot_object *p_instance, void *p_method_data, void *p_user_data) {
+}
+
+godot_variant printer_say(godot_object *p_instance, void *p_method_data, void *p_user_data, int p_num_args, godot_variant **p_args) {
+	godot_string msg = api->godot_string_chars_to_utf8("Printer says Hi");
+	api->godot_print(&msg);
+	api->godot_string_destroy(&msg);
+
+	godot_object *ps_singleton = api->godot_global_get_singleton("ProjectSettings");
+	godot_method_bind *ps_globalize_path = api->godot_method_bind_get_method("ProjectSettings", "globalize_path");
+	godot_string res = api->godot_string_chars_to_utf8("res://");
+	const void *args[] = { (void *)&res };
+	godot_string globalized_path_string;
+	api->godot_method_bind_ptrcall(ps_globalize_path, ps_singleton, args, &globalized_path_string);
+	api->godot_print(&globalized_path_string);
+	api->godot_string_destroy(&res);
+	api->godot_string_destroy(&globalized_path_string);
+
+	godot_variant ret;
 	return ret;
 }

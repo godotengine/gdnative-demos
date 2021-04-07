@@ -78,23 +78,20 @@ void GDN_EXPORT godot_nativescript_init(void *handle) {
 
 	// register instance binding functions
 	{
-		godot_instance_binding_functions bind = {
-			.alloc_instance_binding_data = &create_wrapper_object,
-			.free_instance_binding_data = &destroy_wrapper_object
-		};
+		godot_instance_binding_functions bind = {0};
+		bind.alloc_instance_binding_data = &create_wrapper_object;
+		bind.free_instance_binding_data = &destroy_wrapper_object;
 
 		language_binding_index = nativescript_1_1_api->godot_nativescript_register_instance_binding_data_functions(bind);
 	}
 
 	// register class
 	{
-		godot_instance_create_func constructor = {
-			.create_func = &ibd_constructor
-		};
+		godot_instance_create_func constructor = {0};
+		constructor.create_func = &ibd_constructor;
 
-		godot_instance_destroy_func destructor = {
-			.destroy_func = &ibd_destructor
-		};
+		godot_instance_destroy_func destructor = {0};
+		destructor.destroy_func = &ibd_destructor;
 
 		nativescript_api->godot_nativescript_register_class(handle, "InstanceBinding", "Reference", constructor, destructor);
 	}

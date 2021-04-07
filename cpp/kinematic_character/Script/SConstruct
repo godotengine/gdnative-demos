@@ -2,7 +2,7 @@
 import os
 
 # platform= makes it in line with Godots scons file, keeping p for backwards compatibility
-platform = ARGUMENTS.get("p", "linux")
+platform = ARGUMENTS.get("p", "windows")
 platform = ARGUMENTS.get("platform", platform)
 
 # This makes sure to keep the session environment variables on windows,
@@ -11,12 +11,11 @@ env = Environment()
 if platform == "windows":
     env = Environment(ENV=os.environ)
 
-godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "godot-cpp/godot_headers"))
-godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "godot-cpp"))
+godot_headers_path = ARGUMENTS.get("headers", os.getenv("GODOT_HEADERS", "../../godot-cpp/godot-headers"))
+godot_bindings_path = ARGUMENTS.get("cpp_bindings", os.getenv("CPP_BINDINGS", "../../godot-cpp"))
 
 # default to debug build, must be same setting as used for cpp_bindings
 target = ARGUMENTS.get("target", "debug")
-
 
 if ARGUMENTS.get("use_llvm", "no") == "yes":
     env["CXX"] = "clang++"
@@ -36,7 +35,6 @@ elif platform == "windows":
     else:
         env.Append(CCFLAGS=["-O2", "-EHsc", "-DNDEBUG", "/MD"])
 
-
 def add_sources(sources, dir):
     for f in os.listdir(dir):
         if f.endswith(".cpp"):
@@ -46,16 +44,16 @@ def add_sources(sources, dir):
 env.Append(
     CPPPATH=[
         godot_headers_path,
+        godot_bindings_path + "/include",
         godot_bindings_path + "/include/gen/",
         godot_bindings_path + "/include/core/",
-        godot_bindings_path + "/include/",
     ]
 )
 
 if target == "debug":
-    env.Append(LIBS=["libgodot-cpp.linux.debug.64"])
+    env.Append(LIBS=["libgodot-cpp."+platform+".debug.64"])
 else:
-    env.Append(LIBS=["libgodot-cpp.linux.release.64"])
+    env.Append(LIBS=["libgodot-cpp."+platform+".release.64"])
 env.Append(LIBPATH=[godot_bindings_path + "/bin/"])
 
 sources = []
