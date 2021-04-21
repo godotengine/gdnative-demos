@@ -38,7 +38,7 @@ if env["platform"] == "":
     print("No valid target platform selected.")
     quit()
 
-env["target_path"] += env["platform"] + "/"
+platform = env["platform"]
 
 # Process other arguments.
 if True or env["use_llvm"]:  # TODO: GCC doesn't work for some reason.
@@ -76,12 +76,20 @@ elif env["platform"] == "windows":
 # Make sure our library includes the Godot headers.
 env.Append(CPPPATH=[".", godot_headers_path])
 
-# Include GLFW.
-env.Append(LINKFLAGS=["-lglfw"])
+env["target_path"] += platform + "/"
 
 # Make sure our library looks in the target path for any other
 # libraries it may need. The path needs to be project-relative.
-env.Append(LINKFLAGS=["-Wl,-rpath,gdnative/" + env["platform"]])
+# We remove "project/" from the target path with "[8:]".
+if platform == "windows":
+    env.Append(LINKFLAGS=["-LIBPATH:" + env["target_path"]])
+else:
+    env.Append(LINKFLAGS=["-Wl,-rpath," + (env["target_path"])[8:]])
+    # The capital L path is used when compiling, so it includes "project/".
+    env.Append(LINKFLAGS=["-L" + env["target_path"]])
+
+# Include GLFW.
+env.Append(LINKFLAGS=["-lglfw"])
 
 # Tweak this if you want to use different folders,
 # or more folders, to store your source code in.
