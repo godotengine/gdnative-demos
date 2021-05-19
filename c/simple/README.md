@@ -25,7 +25,7 @@ To compile the library on Linux, do
 
 ```
 cd src
-clang -std=c11 -fPIC -c -I../godot_headers simple.c -o simple.os
+clang -std=c11 -fPIC -c -I../godot-headers simple.c -o simple.os
 clang -shared simple.os -o ../project/gdnative/linuxbsd/libsimple.so
 ```
 
@@ -37,7 +37,7 @@ On macOS:
 
 ```
 cd src
-clang -std=c11 -fPIC -c -I../godot_headers simple.c -o simple.os -arch x86_64
+clang -std=c11 -fPIC -c -I../godot-headers simple.c -o simple.os -arch x86_64
 clang -dynamiclib simple.os -o ../project/gdnative/macos/libsimple.dylib -arch x86_64
 ```
 
@@ -49,7 +49,7 @@ On Windows:
 
 ```
 cd src
-cl /Fosimple.obj /c simple.c /nologo -EHsc -DNDEBUG /MD /I. /I../godot_headers
+cl /Fosimple.obj /c simple.c /nologo -EHsc -DNDEBUG /MD /I. /I../godot-headers
 link /nologo /dll /out:..\project\gdnative\windows\libsimple.dll /implib:..\project\gdnative\windows\libsimple.lib simple.obj
 ```
 
