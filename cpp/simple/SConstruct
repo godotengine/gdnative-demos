@@ -65,12 +65,22 @@ env.Append(
     ]
 )
 
-env.Append(LIBS=[env.File(os.path.join("godot-cpp/bin", "libgodot-cpp.%s.%s.64%s" % (env["platform"], env["target"], env["LIBSUFFIX"])))])
+env.Append(
+    LIBS=[
+        env.File(
+            os.path.join(
+                "godot-cpp/bin", "libgodot-cpp.%s.%s.64%s" % (env["platform"], env["target"], env["LIBSUFFIX"])
+            )
+        )
+    ]
+)
 
 env.Append(LIBPATH=[godot_bindings_path + "/bin/"])
 
 sources = []
 add_sources(sources, "src")
 
-library = env.SharedLibrary(target=env["target_path"] + "/" + env["platform"] + "/" + env["target_name"], source=sources)
+library = env.SharedLibrary(
+    target=env["target_path"] + "/" + env["platform"] + "/" + env["target_name"], source=sources
+)
 Default(library)
