@@ -1,6 +1,6 @@
 extends Node
 
-const Simple = preload("res://bin/simple.gdns")
+const Simple = preload("res://gdnative/simple.gdns")
 
 onready var simple_instance = Simple.new()
 
