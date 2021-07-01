@@ -7,3 +7,7 @@
 [submodule "c/instance_binding/godot-headers"]
 	path = c/instance_binding/godot-headers
 	url = https://github.com/godotengine/godot-headers.git
+[submodule "cpp/simple/godot-cpp"]
+	path = cpp/simple/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
+

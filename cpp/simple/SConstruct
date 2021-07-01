@@ -6,7 +6,7 @@ opts = Variables([], ARGUMENTS)
 # Gets the standard flags CC, CCX, etc.
 env = DefaultEnvironment()
 
-godot_headers_path = "godot-cpp/godot_headers"
+godot_headers_path = "godot-cpp/godot-headers"
 godot_bindings_path = "godot-cpp"
 
 # Define our options. Use future-proofed names for platforms.
