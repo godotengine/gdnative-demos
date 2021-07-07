@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://gdnative/simple_sprite.gdns" type="Script" id=3]
 
 [node name="Node" type="Node"]
 script = ExtResource( 1 )
@@ -19,8 +20,12 @@ margin_top = 360.0
 margin_right = 662.0
 margin_bottom = 374.0
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+script = ExtResource( 3 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
