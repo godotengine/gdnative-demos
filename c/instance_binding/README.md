@@ -1,9 +1,9 @@
 # Instance binding demo using C
 
 Dependencies:
- * You need [Godot headers](https://github.com/godotengine/godot_headers),
-   this is now a submodule of this repo.
- * `clang`, `gcc`, or any decent C compiler that's C11 or C99 compatible.
+ * You need [Godot headers](https://github.com/godotengine/godot-headers),
+   this is now a Git submodule of this repo.
+ * `clang`, `gcc`, or any decent C compiler that's C11 compatible.
 
 ## Compile with SCons (cross platform)
 You can use SCons to compile the library if you have it installed:
@@ -12,7 +12,7 @@ You can use SCons to compile the library if you have it installed:
 scons platform=PLATFORM
 ```
 
-Where platform is: windows, linuxbsd, or macos
+Where PLATFORM is: `windows`, `linuxbsd`, or `macos`.
 
 
 ## Manually compiling

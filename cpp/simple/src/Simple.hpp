@@ -1,3 +1,6 @@
+#ifndef SIMPLE_H
+#define SIMPLE_H
+
 #include <Godot.hpp>
 
 #include <Reference.hpp>
@@ -24,5 +27,7 @@ public:
 
 	void _init();
 
-	void _process(double delta);
+	void _process(double p_delta);
 };
+
+#endif // SIMPLE_H
