@@ -1,0 +1,18 @@
+[general]
+
+singleton=false
+load_once=true
+symbol_prefix="godot_"
+reloadable=true
+
+[entry]
+
+Windows.64="res://gdnative/windows/libdodgethecreeps.dll"
+X11.64="res://gdnative/linux/libdodgethecreeps.so"
+OSX.64="res://gdnative/osx/libdodgethecreeps.dylib"
+
+[dependencies]
+
+Windows.64=[  ]
+X11.64=[  ]
+OSX.64=[  ]
