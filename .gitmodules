@@ -13,3 +13,6 @@
 [submodule "cpp/pong/godot-cpp"]
 	path = cpp/pong/godot-cpp
 	url = https://github.com/godotengine/godot-cpp.git
+[submodule "cpp/dodge_the_creeps/godot-cpp"]
+	path = cpp/dodge_the_creeps/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
