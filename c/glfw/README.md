@@ -8,6 +8,8 @@ Dependencies:
    this is now a Git submodule of this repo.
  * `clang`, `gcc`, or any decent C compiler that's C11 compatible.
  * You need to have GLFW and its headers installed.
+   * On Ubuntu Linux: `sudo apt install libglfw3 libglfw3-dev`
+   * On macOS: `brew install glfw`
 
 ## Compile with SCons (cross platform)
 You can use SCons to compile the library if you have it installed:

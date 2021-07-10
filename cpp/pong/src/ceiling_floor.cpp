@@ -2,7 +2,7 @@
 
 void CeilingFloor::_on_area_entered(Ball *p_ball) {
 	if (p_ball->get_name() == "Ball") {
-		p_ball->direction = (p_ball->direction + godot::Vector2(0, bounce_direction)).normalized();
+		p_ball->direction = (p_ball->direction + godot::Vector2(0, (real_t)bounce_direction)).normalized();
 	}
 }
 

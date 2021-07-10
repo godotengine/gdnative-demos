@@ -9,7 +9,7 @@ void Player::_ready() {
 	hide();
 }
 
-void Player::_process(double p_delta) {
+void Player::_process(const double p_delta) {
 	godot::Input *input = godot::Input::get_singleton();
 	godot::Vector2 velocity(0, 0);
 
@@ -24,7 +24,7 @@ void Player::_process(double p_delta) {
 	}
 
 	godot::Vector2 position = get_position();
-	position += velocity * p_delta;
+	position += velocity * (real_t)p_delta;
 	position.x = godot::Math::clamp(position.x, (real_t)0.0, _screen_size.x);
 	position.y = godot::Math::clamp(position.y, (real_t)0.0, _screen_size.y);
 	set_position(position);
@@ -39,7 +39,7 @@ void Player::_process(double p_delta) {
 	}
 }
 
-void Player::start(godot::Vector2 p_position) {
+void Player::start(const godot::Vector2 p_position) {
 	set_position(p_position);
 	show();
 	_collision_shape->set_disabled(false);
@@ -57,6 +57,6 @@ void Player::_register_methods() {
 	godot::register_method("_process", &Player::_process);
 	godot::register_method("start", &Player::start);
 	godot::register_method("_on_Player_body_entered", &Player::_on_Player_body_entered);
-	godot::register_property("speed", &Player::speed, 400);
-	godot::register_signal<Player>("hit");
+	godot::register_property("speed", &Player::speed, (real_t)400.0);
+	godot::register_signal<Player>("hit", godot::Dictionary());
 }

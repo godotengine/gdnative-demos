@@ -20,7 +20,7 @@ class Paddle : public godot::Area2D {
 public:
 	void _init() {}
 	void _ready();
-	void _process(double p_delta);
+	void _process(const double p_delta);
 	void _on_area_entered(Ball *p_area);
 
 	static void _register_methods();
