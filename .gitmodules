@@ -10,3 +10,6 @@
 [submodule "cpp/simple/godot-cpp"]
 	path = cpp/simple/godot-cpp
 	url = https://github.com/godotengine/godot-cpp.git
+[submodule "cpp/pong/godot-cpp"]
+	path = cpp/pong/godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
