@@ -1,6 +1,11 @@
-# C++ demos
+# Simple GDNative C++ demo
 
-These demos show how to use the GDNative C++ bindings.
+This is a small example using C++ to create a GDNative script
+that just showcases some very simple bare bones calls.
+
+Language: C++
+
+Renderer: GLES 2
 
 Dependencies:
  * You need [godot-cpp](https://github.com/godotengine/godot-cpp),
@@ -9,7 +14,7 @@ Dependencies:
 
 ## Compiling
 
-For each of the C++ demos, you can use SCons to compile the library:
+You can use SCons to compile the library:
 
 ```
 scons platform=PLATFORM
@@ -19,3 +24,7 @@ Where PLATFORM is: `windows`, `linux`, or `osx`.
 
 This creates the file `libsimple` in the respective
 subfolders in the `project/gdnative` directory.
+
+## Screenshots
+
+![Screenshot](screenshots/screenshot.png)

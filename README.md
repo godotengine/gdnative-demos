@@ -11,7 +11,7 @@ For non-GDNative demos (GDScript, VisualScript, and C#), please see the
 ## Godot versions
 
 The [`master`](https://github.com/godotengine/gdnative-demos) branch
-is compatible with the latest stable Godot version (currently 3.2).
+is compatible with the latest stable Godot version (currently 3.3).
 Older Godot versions are not supported by this repo.
 
 ## Useful links

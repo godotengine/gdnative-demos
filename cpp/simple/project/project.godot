@@ -14,11 +14,14 @@ _global_script_class_icons={
 
 [application]
 
-config/name="New Game Project"
+config/name="Simple GDNative C++ demo"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
 [rendering]
 
-quality/driver/fallback_to_gles2=true
-environment/default_environment="res://default_env.tres"
+quality/driver/driver_name="GLES2"
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
