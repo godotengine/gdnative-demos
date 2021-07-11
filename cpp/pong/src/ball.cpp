@@ -4,10 +4,10 @@ void Ball::_ready() {
 	_initial_pos = get_position();
 }
 
-void Ball::_process(double p_delta) {
-	_speed += p_delta * 2;
+void Ball::_process(const double p_delta) {
+	_speed += (real_t)p_delta * 2;
 	godot::Vector2 position = get_position();
-	position += _speed * p_delta * direction;
+	position += _speed * (real_t)p_delta * direction;
 	set_position(position);
 }
 

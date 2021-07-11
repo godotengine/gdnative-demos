@@ -27,7 +27,7 @@ public:
 
 	void _init();
 
-	void _process(double p_delta);
+	void _process(const double p_delta);
 };
 
 #endif // SIMPLE_H

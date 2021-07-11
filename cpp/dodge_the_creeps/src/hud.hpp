@@ -22,7 +22,7 @@ public:
 	void _ready();
 	void show_get_ready();
 	void show_game_over();
-	void update_score(int score);
+	void update_score(const int score);
 	void _on_StartButton_pressed();
 	void _on_StartMessageTimer_timeout();
 	void _on_GetReadyMessageTimer_timeout();

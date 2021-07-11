@@ -3,11 +3,12 @@ import os
 
 opts = Variables([], ARGUMENTS)
 
-# Gets the standard flags CC, CCX, etc.
-env = DefaultEnvironment()
-
+# Define the relative path to the Godot headers.
 godot_headers_path = "godot-cpp/godot-headers"
 godot_bindings_path = "godot-cpp"
+
+# Gets the standard flags CC, CCX, etc.
+env = DefaultEnvironment()
 
 # Define our options. Use future-proofed names for platforms.
 platform_array = ["", "windows", "linuxbsd", "macos", "x11", "linux", "osx"]
@@ -38,28 +39,22 @@ if env["platform"] == "":
 
 platform = env["platform"]
 
-# Process other arguments.
-if env["platform"] == "osx" and not env["use_llvm"]:
-    env["use_llvm"] = "yes"
-
-if env["use_llvm"] == "yes":
-    env["CC"] = "clang"
-    env["CXX"] = "clang++"
-
-# put stuff that is the same for all first, saves duplication
-if env["platform"] == "osx":
+# Check our platform specifics.
+if platform == "osx":
+    if not env["use_llvm"]:
+        env["use_llvm"] = "yes"
     if env["target"] in ("debug", "d"):
         env.Append(CCFLAGS=["-g", "-O2", "-arch", "x86_64", "-std=c++14"])
         env.Append(LINKFLAGS=["-arch", "x86_64"])
     else:
         env.Append(CCFLAGS=["-g", "-O3", "-arch", "x86_64", "-std=c++14"])
         env.Append(LINKFLAGS=["-arch", "x86_64"])
-elif env["platform"] == "linux":
+elif platform == "linux":
     if env["target"] in ("debug", "d"):
         env.Append(CCFLAGS=["-fPIC", "-g3", "-Og"])
     else:
         env.Append(CCFLAGS=["-fPIC", "-g", "-O3"])
-elif env["platform"] == "windows":
+elif platform == "windows":
     # This makes sure to keep the session environment variables
     # on Windows, so that you can run scons in a VS 2017 prompt
     # and it will find all the required tools.
@@ -71,6 +66,10 @@ elif env["platform"] == "windows":
         env.Append(CCFLAGS=["-EHsc", "-D_DEBUG", "-MDd"])
     else:
         env.Append(CCFLAGS=["-O2", "-EHsc", "-DNDEBUG", "-MD"])
+
+if env["use_llvm"] == "yes":
+    env["CC"] = "clang"
+    env["CXX"] = "clang++"
 
 SConscript("godot-cpp/SConstruct")
 
@@ -92,11 +91,7 @@ env.Append(
 
 env.Append(
     LIBS=[
-        env.File(
-            os.path.join(
-                "godot-cpp/bin", "libgodot-cpp.%s.%s.64%s" % (env["platform"], env["target"], env["LIBSUFFIX"])
-            )
-        )
+        env.File(os.path.join("godot-cpp/bin", "libgodot-cpp.%s.%s.64%s" % (platform, env["target"], env["LIBSUFFIX"])))
     ]
 )
 
@@ -105,7 +100,5 @@ env.Append(LIBPATH=[godot_bindings_path + "/bin/"])
 sources = []
 add_sources(sources, "src")
 
-library = env.SharedLibrary(
-    target=env["target_path"] + "/" + env["platform"] + "/" + env["target_name"], source=sources
-)
+library = env.SharedLibrary(target=env["target_path"] + "/" + platform + "/" + env["target_name"], source=sources)
 Default(library)

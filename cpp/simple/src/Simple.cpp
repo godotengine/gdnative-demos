@@ -24,12 +24,12 @@ void SimpleSprite::_init() {
 	godot::Godot::print("A SimpleSprite was initialized in GDNative!");
 }
 
-void SimpleSprite::_process(double p_delta) {
+void SimpleSprite::_process(const double p_delta) {
 	godot::Input *input = godot::Input::get_singleton();
 	godot::Vector2 input_dir(0, 0);
 
 	input_dir.x = input->get_action_strength("ui_right") - input->get_action_strength("ui_left");
 	input_dir.y = input->get_action_strength("ui_down") - input->get_action_strength("ui_up");
 
-	set_position(get_position() + input_dir.normalized() * p_delta * 300);
+	set_position(get_position() + input_dir.normalized() * (real_t)p_delta * 300);
 }

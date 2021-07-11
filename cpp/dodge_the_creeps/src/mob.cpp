@@ -16,12 +16,7 @@ void Mob::_on_VisibilityNotifier2D_screen_exited() {
 	queue_free();
 }
 
-void Mob::_on_start_game() {
-	queue_free();
-}
-
 void Mob::_register_methods() {
 	godot::register_method("_ready", &Mob::_ready);
 	godot::register_method("_on_VisibilityNotifier2D_screen_exited", &Mob::_on_VisibilityNotifier2D_screen_exited);
-	godot::register_method("_on_start_game", &Mob::_on_start_game);
 }

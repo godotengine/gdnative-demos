@@ -23,7 +23,7 @@ void HUD::show_game_over() {
 	_start_message_timer->start();
 }
 
-void HUD::update_score(int p_score) {
+void HUD::update_score(const int p_score) {
 	_score_label->set_text(godot::Variant(p_score));
 }
 
@@ -51,5 +51,5 @@ void HUD::_register_methods() {
 	godot::register_method("_on_StartButton_pressed", &HUD::_on_StartButton_pressed);
 	godot::register_method("_on_StartMessageTimer_timeout", &HUD::_on_StartMessageTimer_timeout);
 	godot::register_method("_on_GetReadyMessageTimer_timeout", &HUD::_on_GetReadyMessageTimer_timeout);
-	godot::register_signal<HUD>("start_game");
+	godot::register_signal<HUD>("start_game", godot::Dictionary());
 }

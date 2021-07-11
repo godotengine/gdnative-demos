@@ -15,12 +15,12 @@ void Paddle::_ready() {
 	}
 }
 
-void Paddle::_process(double delta) {
+void Paddle::_process(const double delta) {
 	godot::Input *input = godot::Input::get_singleton();
 	// Move up and down based on input.
 	real_t keyboard_input = input->get_action_strength(_down) - input->get_action_strength(_up);
 	godot::Vector2 position = get_position();
-	position.y = godot::Math::clamp(position.y + keyboard_input * MOVE_SPEED * delta, 16.0, _screen_size_y - 16.0);
+	position.y = (real_t)godot::Math::clamp(position.y + keyboard_input * MOVE_SPEED * delta, 16.0, _screen_size_y - 16.0);
 	set_position(position);
 }
 
@@ -29,7 +29,7 @@ void Paddle::_on_area_entered(Ball *p_ball) {
 		godot::Ref<godot::RandomNumberGenerator> random = godot::RandomNumberGenerator::_new();
 		random->randomize();
 		// Assign new direction.
-		p_ball->direction = godot::Vector2(_ball_dir, random->randf() * 2 - 1).normalized();
+		p_ball->direction = godot::Vector2((real_t)_ball_dir, random->randf() * 2 - 1).normalized();
 	}
 }
 

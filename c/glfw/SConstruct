@@ -40,27 +40,22 @@ if env["platform"] == "":
 
 platform = env["platform"]
 
-# Process other arguments.
-if True or env["use_llvm"]:  # TODO: GCC doesn't work for some reason.
-    env["CC"] = "clang"
-    env["CXX"] = "clang++"
-
-# Check our platform specifics
-if env["platform"] == "macos":
+# Check our platform specifics.
+if platform == "macos":
+    if not env["use_llvm"]:
+        env["use_llvm"] = "yes"
     if env["target"] in ("debug", "d"):
         env.Append(CCFLAGS=["-g", "-O2", "-arch", "x86_64"])
         env.Append(LINKFLAGS=["-arch", "x86_64"])
     else:
         env.Append(CCFLAGS=["-g", "-O3", "-arch", "x86_64"])
         env.Append(LINKFLAGS=["-arch", "x86_64"])
-
-elif env["platform"] == "linuxbsd":
+elif platform == "linuxbsd":
     if env["target"] in ("debug", "d"):
         env.Append(CCFLAGS=["-fPIC", "-g3", "-Og"])
     else:
         env.Append(CCFLAGS=["-fPIC", "-g", "-O3"])
-
-elif env["platform"] == "windows":
+elif platform == "windows":
     # This makes sure to keep the session environment variables
     # on Windows, so that you can run scons in a VS 2017 prompt
     # and it will find all the required tools.
@@ -72,6 +67,10 @@ elif env["platform"] == "windows":
         env.Append(CCFLAGS=["-EHsc", "-D_DEBUG", "-MDd"])
     else:
         env.Append(CCFLAGS=["-O2", "-EHsc", "-DNDEBUG", "-MD"])
+
+if env["use_llvm"] == "yes":
+    env["CC"] = "clang"
+    env["CXX"] = "clang++"
 
 # Make sure our library includes the Godot headers.
 env.Append(CPPPATH=[".", godot_headers_path])
