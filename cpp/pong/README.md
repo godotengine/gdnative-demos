@@ -4,7 +4,7 @@ A simple Pong game, made with GDNative C++. This demo shows best practices
 for game development in Godot, including
 [signals](https://docs.godotengine.org/en/latest/getting_started/step_by_step/signals.html).
 
-Language: C++
+Language: [GDNative C++](https://docs.godotengine.org/en/latest/tutorials/scripting/gdnative/index.html)
 
 Renderer: GLES 2
 
@@ -24,7 +24,7 @@ scons platform=PLATFORM
 
 Where PLATFORM is: `windows`, `linux`, or `osx`.
 
-This creates the file `libsimple` in the respective
+This creates the file `libpong` in the respective
 subfolders in the `project/gdnative` directory.
 
 Dependencies:

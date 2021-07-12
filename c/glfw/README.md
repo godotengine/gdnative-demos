@@ -3,6 +3,10 @@
 This is a small example using C to create a GDNative script that
 exposes a very small part of the GLFW API.
 
+Language: [GDNative C](https://docs.godotengine.org/en/latest/tutorials/scripting/gdnative/index.html)
+
+Renderer: GLES 2
+
 Dependencies:
  * You need [Godot headers](https://github.com/godotengine/godot-headers),
    this is now a Git submodule of this repo.
@@ -19,7 +23,6 @@ scons platform=PLATFORM
 ```
 
 Where PLATFORM is: `windows`, `linuxbsd`, or `macos`.
-
 
 ## Manually compiling
 

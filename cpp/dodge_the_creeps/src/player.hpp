@@ -5,12 +5,14 @@
 #include <Area2D.hpp>
 #include <CollisionShape2D.hpp>
 #include <Godot.hpp>
+#include <Input.hpp>
 
 class Player : public godot::Area2D {
 	GODOT_CLASS(Player, godot::Area2D)
 
 	godot::AnimatedSprite *_animated_sprite;
 	godot::CollisionShape2D *_collision_shape;
+	godot::Input *_input;
 	godot::Vector2 _screen_size; // Size of the game window.
 
 public:

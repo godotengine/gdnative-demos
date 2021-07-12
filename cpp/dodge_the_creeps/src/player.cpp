@@ -1,20 +1,18 @@
 #include "player.hpp"
 
-#include <Input.hpp>
-
 void Player::_ready() {
 	_animated_sprite = get_node<godot::AnimatedSprite>("AnimatedSprite");
 	_collision_shape = get_node<godot::CollisionShape2D>("CollisionShape2D");
+	_input = godot::Input::get_singleton();
 	_screen_size = get_viewport_rect().size;
 	hide();
 }
 
 void Player::_process(const double p_delta) {
-	godot::Input *input = godot::Input::get_singleton();
 	godot::Vector2 velocity(0, 0);
 
-	velocity.x = input->get_action_strength("move_right") - input->get_action_strength("move_left");
-	velocity.y = input->get_action_strength("move_down") - input->get_action_strength("move_up");
+	velocity.x = _input->get_action_strength("move_right") - _input->get_action_strength("move_left");
+	velocity.y = _input->get_action_strength("move_down") - _input->get_action_strength("move_up");
 
 	if (velocity.length() > 0) {
 		velocity = velocity.normalized() * speed;
