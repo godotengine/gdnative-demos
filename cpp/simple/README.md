@@ -3,7 +3,7 @@
 This is a small example using C++ to create a GDNative script
 that just showcases some very simple bare bones calls.
 
-Language: C++
+Language: [GDNative C++](https://docs.godotengine.org/en/latest/tutorials/scripting/gdnative/index.html)
 
 Renderer: GLES 2
 

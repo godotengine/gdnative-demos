@@ -8,7 +8,7 @@ This is a finished version of the game featured in the
 tutorial in the documentation. For more details,
 consider following the tutorial in the documentation.
 
-Language: GDScript
+Language: [GDNative C++](https://docs.godotengine.org/en/latest/tutorials/scripting/gdnative/index.html)
 
 Renderer: GLES 3 (particles are not available in GLES 2)
 
@@ -26,7 +26,7 @@ scons platform=PLATFORM
 
 Where PLATFORM is: `windows`, `linux`, or `osx`.
 
-This creates the file `libsimple` in the respective
+This creates the file `libdodgethecreeps` in the respective
 subfolders in the `project/gdnative` directory.
 
 Dependencies:
