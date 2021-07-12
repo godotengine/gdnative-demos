@@ -3,6 +3,7 @@
 
 #include <Godot.hpp>
 
+#include <Input.hpp>
 #include <Reference.hpp>
 #include <Sprite.hpp>
 
@@ -21,6 +22,8 @@ public:
 
 class SimpleSprite : public godot::Sprite {
 	GODOT_CLASS(SimpleSprite, godot::Sprite)
+
+	godot::Input *_input;
 
 public:
 	static void _register_methods();
