@@ -7,12 +7,14 @@ reloadable=true
 
 [entry]
 
-X11.64="res://gdnative/linuxbsd/libglfw_godot.so"
 Windows.64="res://gdnative/windows/libglfw_godot.dll"
 OSX.64="res://gdnative/macos/libglfw_godot.dylib"
+X11.64="res://gdnative/linuxbsd/libglfw_godot.so"
+Server.64="res://gdnative/linuxbsd/libglfw_godot.so"
 
 [dependencies]
 
-X11.64=[  ]
 Windows.64=[  ]
 OSX.64=[  ]
+X11.64=[  ]
+Server.64=[  ]
