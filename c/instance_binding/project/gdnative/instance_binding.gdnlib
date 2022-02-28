@@ -7,10 +7,14 @@ reloadable=true
 
 [entry]
 
-X11.64="res://gdnative/linuxbsd/libinstance_binding.so"
 Windows.64="res://gdnative/windows/libinstance_binding.dll"
 OSX.64="res://gdnative/macos/libinstance_binding.dylib"
+X11.64="res://gdnative/linuxbsd/libinstance_binding.so"
+Server.64="res://gdnative/linuxbsd/libinstance_binding.so"
 
 [dependencies]
 
+Windows.64=[  ]
+OSX.64=[  ]
 X11.64=[  ]
+Server.64=[  ]
