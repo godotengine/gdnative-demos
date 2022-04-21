@@ -18,7 +18,7 @@ opts.Add(EnumVariable("p", "Alias for 'platform'", "", platform_array))
 opts.Add(BoolVariable("use_llvm", "Use the LLVM / Clang compiler", "no"))
 opts.Add(BoolVariable("use_mingw", "Use the MinGW compiler instead of MSVC - only effective on Windows", False))
 opts.Add(PathVariable("target_path", "The path where the lib is installed.", "project/gdnative/"))
-opts.Add(PathVariable("target_name", "The library name.", "libdodgethecreeps", PathVariable.PathAccept))
+opts.Add(PathVariable("target_name", "The library name.", "libpong", PathVariable.PathAccept))
 
 # Updates the environment with the option variables.
 opts.Update(env)
